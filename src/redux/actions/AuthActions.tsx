@@ -25,17 +25,17 @@ export const signUp = (userData: any) => {
       .post(Config.REACT_APP_SERVER_URL + '/users/register', userData)
       .then((response: any) => {
         dispatch(addMessage({id: 1, text: 'Registeration successful'}));
-        console.log(response);
+        dispatch({type: 'SIGN_UP_SUCCESS', payload: response.data});
       })
       .catch((error: any) => {
-        console.log(error.response.status == 500);
-        console.log(error.response.data);
         if (error.response.status == 500) {
           dispatch(addMessage({id: 1, text: error.response.data}));
+          dispatch({type: 'SIGN_UP_FAILED', payload: error.response.data});
         } else {
           dispatch(
             addMessage({id: error.response.status, text: error.response.data}),
           );
+          dispatch({type: 'SIGN_UP_FAILED', payload: error.response.data});
         }
 
         setTimeout(() => {

@@ -20,7 +20,7 @@ const MessageDisplay = () => {
   } else {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.messageText}>{message.text.message}</Text>
+        <Text style={styles.messageText}>{message.text.error}</Text>
       </View>
     );
   }

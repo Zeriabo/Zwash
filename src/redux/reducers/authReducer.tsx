@@ -1,6 +1,10 @@
 interface AuthState {
   user: User | null;
   error: any;
+  registrationSuccess: boolean;
+  registrationFailed: boolean;
+  authenticationSuccess: boolean;
+  authenticationFailed: boolean;
 }
 interface User {
   '@class': string;
@@ -23,6 +27,10 @@ interface Action {
 const initialState: AuthState = {
   user: null,
   error: null,
+  registrationSuccess: false,
+  registrationFailed: false,
+  authenticationSuccess: false,
+  authenticationFailed: false,
 };
 
 const authReducer = (state = initialState, action: Action): AuthState => {
@@ -32,18 +40,40 @@ const authReducer = (state = initialState, action: Action): AuthState => {
         ...state,
         user: action.payload,
         error: null,
+        authenticationSuccess: true,
+        authenticationFailed: false,
       };
     case 'SIGN_IN_ERROR':
       return {
         ...state,
         user: null,
         error: action.payload,
+        authenticationSuccess: false,
+        authenticationFailed: true,
       };
     case 'SIGN_OUT':
       return {
         ...state,
         user: null,
         error: null,
+        authenticationSuccess: false,
+        authenticationFailed: false,
+      };
+    case 'SIGN_UP_SUCCESS':
+      return {
+        ...state,
+        user: action.payload,
+        error: null,
+        registrationSuccess: true,
+        registrationFailed: false,
+      };
+    case 'SIGN_UP_FAILED':
+      return {
+        ...state,
+        user: null,
+        error: action.payload,
+        registrationSuccess: false,
+        registrationFailed: true,
       };
     default:
       return state;
