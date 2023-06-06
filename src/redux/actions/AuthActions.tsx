@@ -7,7 +7,9 @@ export const signIn = (userData: any) => {
   return async (dispatch: Dispatch<any>) => {
     await axios
       .post('http://localhost:7001/users/signin', userData) //Config.REACT_APP_SERVER_URL +
-      .then(response => console.log(response))
+      .then(response =>
+        dispatch({type: 'SIGN_IN_SUCCESS', payload: response.data}),
+      )
       .catch(error => {
         dispatch(addMessage({id: 1, text: error.response.data}));
         setTimeout(() => {
@@ -29,12 +31,6 @@ export const signUp = (userData: any) => {
         console.log(error.response.data);
         if (error.response.status == 500) {
           dispatch(addMessage({id: 1, text: error.response.data}));
-          // dispatch(
-          //   addMessage({
-          //     id: error.response.status,
-          //     text: 'Server Error: check input!',
-          //   }),
-          // );
         } else {
           dispatch(
             addMessage({id: error.response.status, text: error.response.data}),
