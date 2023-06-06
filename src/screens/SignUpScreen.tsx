@@ -5,6 +5,7 @@ import Config from 'react-native-config';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {addMessage, clearMessages} from '../redux/types/messageActionTypes';
+import {signUp} from '../redux/actions/AuthActions';
 interface Props {
   navigation: any; // Update the type of the navigation prop as per your navigation library
 }
@@ -33,20 +34,21 @@ const SignUpScreen: React.FC<Props> = () => {
       username: username,
       dateOfBirth: dateOfBirth,
     };
+    dispatch(signUp(user));
+    // axios
+    //   .post(Config.REACT_APP_SERVER_URL + '/users/register', user)
+    //   .then((response: any) => {
+    //     console.log(response);
+    //     navigation.navigate('Home'); // Navigate to the home screen upon successful sign-in
+    //   })
+    //   .catch((error: any) => {
+    //     dispatch(addMessage({id: 1, text: error.response.data}));
 
-    axios
-      .post(Config.REACT_APP_SERVER_URL + '/users/register', user)
-      .then((response: any) => {
-        console.log(response);
-        navigation.navigate('Home'); // Navigate to the home screen upon successful sign-in
-      })
-      .catch((error: any) => {
-        dispatch(addMessage({id: 1, text: error.response.data}));
-
-        setTimeout(() => {
-          dispatch(clearMessages());
-        }, 2000);
-      });
+    //     setTimeout(() => {
+    //       dispatch(clearMessages());
+    //     }, 2000);
+    //   });
+    //navigation.navigate('Home'); // Navigate to the home screen upon successful sign-in
   };
 
   return (
