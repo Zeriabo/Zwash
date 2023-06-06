@@ -6,7 +6,7 @@ import {addMessage, clearMessages} from './messageActions';
 export const signIn = (userData: any) => {
   return async (dispatch: Dispatch<any>) => {
     await axios
-      .post('http://localhost:7001/users/signin', userData) //Config.REACT_APP_SERVER_URL +
+      .post(Config.REACT_APP_SERVER_URL + '/users/signin', userData)
       .then(response =>
         dispatch({type: 'SIGN_IN_SUCCESS', payload: response.data}),
       )
@@ -22,8 +22,9 @@ export const signIn = (userData: any) => {
 export const signUp = (userData: any) => {
   return async (dispatch: Dispatch<any>) => {
     await axios
-      .post('http://localhost:7001/users/register', userData)
+      .post(Config.REACT_APP_SERVER_URL + '/users/register', userData)
       .then((response: any) => {
+        dispatch(addMessage({id: 1, text: 'Registeration successful'}));
         console.log(response);
       })
       .catch((error: any) => {
