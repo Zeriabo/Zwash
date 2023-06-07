@@ -10,7 +10,6 @@ const MessageDisplay = () => {
     return null; // Return null to render nothing if there are no messages
   }
   const message = messages[messages.length - 1];
-  console.log(message.text.status);
   if (message.text.status != 500) {
     return (
       <View style={styles.container}>
@@ -20,7 +19,7 @@ const MessageDisplay = () => {
   } else {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.messageText}>{message.text.error}</Text>
+        <Text style={styles.messageText}>{message.text.message}</Text>
       </View>
     );
   }
