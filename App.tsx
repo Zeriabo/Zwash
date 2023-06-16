@@ -11,24 +11,29 @@ import StationPage from './src/screens/StationPage';
 import BuywashScreen from './src/screens/BuywashScreen';
 import store from './src/redux/store';
 import MessageDisplay from './src/components/MessageDisplay';
+import PaymentForm from './src/screens/PaymentForm';
+import {StripeProvider} from '@stripe/stripe-react-native';
 
 const RootStack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <MessageDisplay />
-        <RootStack.Navigator initialRouteName="Home">
-          <RootStack.Screen name="Home" component={HomeScreen} />
-          <RootStack.Screen name="SignIn" component={SignInScreen} />
-          <RootStack.Screen name="SignUp" component={SignUpScreen} />
-          <RootStack.Screen name="Stations" component={Stations} />
-          <RootStack.Screen name="StationPage" component={StationPage} />
-          <RootStack.Screen name="Buywash" component={BuywashScreen} />
-        </RootStack.Navigator>
-      </NavigationContainer>
-    </Provider>
+    <StripeProvider publishableKey="pk_live_51NInIUC7hkCZnQICP9yJ7wYGv7fD2LqywpY7VGeYOrYN6xeoe09la1YIP8vILsNCY3yDADOuCatlAWKUHe6CYKoF00BkFTP4bd">
+      <Provider store={store}>
+        <NavigationContainer>
+          <MessageDisplay />
+          <RootStack.Navigator initialRouteName="Home">
+            <RootStack.Screen name="Home" component={HomeScreen} />
+            <RootStack.Screen name="SignIn" component={SignInScreen} />
+            <RootStack.Screen name="SignUp" component={SignUpScreen} />
+            <RootStack.Screen name="Stations" component={Stations} />
+            <RootStack.Screen name="StationPage" component={StationPage} />
+            <RootStack.Screen name="Buywash" component={BuywashScreen} />
+            <RootStack.Screen name="PaymentForm" component={PaymentForm} />
+          </RootStack.Navigator>
+        </NavigationContainer>
+      </Provider>
+    </StripeProvider>
   );
 }
 

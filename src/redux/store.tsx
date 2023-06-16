@@ -3,11 +3,12 @@ import thunk from 'redux-thunk';
 import stationsReducer from './reducers/stationsReducer';
 import authReducer from './reducers/authReducer';
 import messageReducer from './reducers/messagereducer';
-
+import buyReducer from './reducers/buyReducer';
 const rootReducer = combineReducers({
   user: authReducer,
   stations: stationsReducer,
   messages: messageReducer,
+  cart: buyReducer,
   // Add more reducers here if needed
 });
 
