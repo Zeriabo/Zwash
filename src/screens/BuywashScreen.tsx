@@ -8,16 +8,13 @@ import {
   Alert,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {buyWash} from '../redux/actions/BuyActions';
-import axios from 'axios';
-import Config from 'react-native-config';
-import getStripe from '../lib/getStripe';
-import {loadStripe} from '@stripe/stripe-js';
+
 const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
   const selectedProgram = route.params.selectedProgram;
   const [checkoutUrl, setCheckoutUrl] = useState('');
+  const [program, setProgram] = useState({});
 
   return (
     <View style={styles.container}>
@@ -29,7 +26,13 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
         <Text style={styles.programDescription}>
           {selectedProgram.description}
         </Text>
-        <Button title="Buy Now" onPress={() => {}} />
+        <Button
+          title="Buy Now"
+          onPress={() => {
+            setProgram(selectedProgram);
+            navigation.navigate('CheckoutScreen', {program: selectedProgram});
+          }}
+        />
       </View>
       {/* </ImageBackground> */}
     </View>

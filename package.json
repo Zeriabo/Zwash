@@ -12,12 +12,8 @@
   "dependencies": {
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
-    "@stripe/react-stripe-js": "^2.1.0",
-    "@stripe/stripe-js": "^1.54.0",
-    "@stripe/stripe-react-native": "^0.27.2",
     "axios": "^1.4.0",
     "expo-location": "^15.1.1",
-    "install": "^0.13.0",
     "react": "18.2.0",
     "react-native": "0.71.8",
     "react-native-config": "^1.4.1",
@@ -28,32 +24,14 @@
     "react-native-screens": "^3.20.0",
     "react-navigation": "^4.4.4",
     "react-redux": "^8.0.5",
-    "react-stripe-checkout": "^2.6.3",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2"
   },
-  "reactNativePermissionsIOS": {
-    "photo": {
-      "ios": "PHPhotoLibrary",
-      "dependencies": []
-    },
-    "camera": {
-      "ios": "AVCaptureDevice",
-      "dependencies": []
-    },
-    "locationAccuracy": {
-      "ios": "CLLocationManager",
-      "dependencies": []
-    },
-    "locationAlways": {
-      "ios": "CLLocationManager",
-      "dependencies": []
-    },
-    "locationWhenInUse": {
-      "ios": "CLLocationManager",
-      "dependencies": []
-    }
-  },
+  "reactNativePermissionsIOS": [
+    "LocationAccuracy",
+    "LocationAlways",
+    "LocationWhenInUse"
+  ],
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",

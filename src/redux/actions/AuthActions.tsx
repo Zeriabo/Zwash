@@ -23,7 +23,7 @@ export const signIn = (userData: any) => {
 export const signUp = (userData: any) => {
   return async (dispatch: Dispatch<any>) => {
     await axios
-      .post(Config.REACT_APP_SERVER_URL + '/v1/users/register', userData)
+      .post(Config.REACT_APP_SERVER_URL + '/users/register', userData)
       .then((response: any) => {
         dispatch(addMessage({id: 1, text: 'Registeration successful'}));
         dispatch({type: 'SIGN_UP_SUCCESS', payload: response.data});

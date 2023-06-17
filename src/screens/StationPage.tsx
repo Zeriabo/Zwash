@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ImageBackground,
-} from 'react-native';
-import {Station, CarWashingProgram} from '../redux/types/stationsActionTypes';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {RootState} from '../redux/store';
+import {useSelector} from 'react-redux';
+import {Station, CarWashingProgram} from '../redux/types/stationsActionTypes'; // Replace with the correct types
 import {NavigationProp, RouteProp} from '@react-navigation/native';
 
 interface Props {
@@ -20,50 +16,48 @@ function StationPage({route, navigation}: Props) {
   const programs: CarWashingProgram[] = station.programs[1];
 
   const handleProgramSelection = (selectedProgram: CarWashingProgram) => {
+    // Perform the action when a program is selected
     console.log('Selected Program:', selectedProgram);
     navigation.navigate('Buywash', {selectedProgram});
+    // Add your logic here to handle program selection
   };
 
   return (
-    <ImageBackground
-      source={require('../assets/images/car-wash-background.png')}
-      style={styles.backgroundImage}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Station Details</Text>
-        <Text style={styles.stationName}>Station Name: {station.name}</Text>
-        <Text style={styles.stationAddress}>
-          Station Address: {station.address}
-        </Text>
-        <Text style={styles.programsTitle}>Programs:</Text>
-        {programs.map((program: CarWashingProgram) => (
-          <TouchableOpacity
-            key={program.id}
-            style={styles.programContainer}
-            onPress={() => handleProgramSelection(program)}>
-            <Text style={styles.program}>{program.program}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </ImageBackground>
+    <View style={styles.container}>
+      <Text style={styles.title}>Station Details</Text>
+      <Text style={styles.stationName}>Station Name: {station.name}</Text>
+      <Text style={styles.stationAddress}>
+        Station Address: {station.address}
+      </Text>
+      <Text style={styles.programsTitle}>Programs:</Text>
+      {programs.map((program: any) => (
+        <TouchableOpacity
+          key={program.id}
+          style={styles.programContainer}
+          onPress={() => handleProgramSelection(program)}>
+          <Text style={styles.program}>{program.program}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
-  },
   container: {
     flex: 1,
-    padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  stationId: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
   stationName: {
     fontSize: 16,
@@ -72,6 +66,7 @@ const styles = StyleSheet.create({
   },
   stationAddress: {
     fontSize: 16,
+    fontWeight: 'bold',
     marginBottom: 20,
   },
   programsTitle: {

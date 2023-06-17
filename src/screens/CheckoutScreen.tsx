@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {initPaymentSheet, useStripe} from '@stripe/stripe-react-native';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -18,8 +17,8 @@ const styles = StyleSheet.create({
   },
   boxedContainer: {
     width: '80%',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: 100,
+    paddingVertical: 10,
     borderRadius: 5,
     backgroundColor: '#9c333c',
   },
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 8,
   },
-  image: {width: 80, height: 40},
+
   row: {
     flexGrow: 1,
     alignItems: 'center',
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#db0d48',
   },
   headingText: {fontSize: 24, color: 'white'},
-  cartItemText: {fontSize: 16, color: 'black'},
+  itemText: {fontSize: 16, color: 'black'},
   divider: {marginLeft: 16},
   checkoutAreaContainer: {
     alignItems: 'center',
@@ -54,25 +53,15 @@ const styles = StyleSheet.create({
   cartContainer: {marginVertical: 8},
 });
 
-const CheckoutScreen = () => {
-  const {initPaymentSheet, presentPaymentSheet} = useStripe();
+const CheckoutScreen = (program: any) => {
   const [loading, setLoading] = useState(false);
-  const [items, setItems] = useState([]);
-
+  const [item, setItem] = useState({});
+  useEffect(() => {
+    setItem(program.route.params.program);
+  }, []);
   const initializePaymentSheet = async () => {
     const {paymentIntent, ephemeralKey, customer} =
       await fetchPaymentSheetParams();
-
-    const {error} = await initPaymentSheet({
-      merchantDisplayName: 'Merchant',
-      customerId: customer,
-      customerEphemeralKeySecret: ephemeralKey,
-      paymentIntentClientSecret: paymentIntent,
-    });
-
-    if (!error) {
-      setLoading(true);
-    }
   };
   const fetchPaymentSheetParams = async () => {
     const response = await fetch(
@@ -97,37 +86,29 @@ const CheckoutScreen = () => {
     };
   };
 
-  const openPaymentSheet = async () => {
-    const {error} = await presentPaymentSheet();
-
-    if (error) {
-      Alert.alert(`Error code: ${error.code}`, error.message);
-    } else {
-      Alert.alert('Success', 'Your order is confirmed!');
-    }
-  };
+  const openPaymentSheet = async () => {};
 
   return (
     <View style={styles.mainContainer}>
       <View style={styles.boxedContainer}>
         <View style={styles.cartContainer}>
-          <Text style={styles.headingText}>Your Cart</Text>
+          <Text style={styles.headingText}>Selected Program</Text>
         </View>
-        {items.map((item: any) => (
-          <View key={item.id} style={styles.cardContainer}>
-            <Image
-              source={{
-                uri: item.imageUrl,
-              }}
-              style={styles.image}
-            />
-            <View style={styles.row}>
-              <Text style={styles.cartItemText}>{item.name}</Text>
-              <View style={styles.divider} />
-              <Text style={styles.cartItemText}>${item.price}</Text>
-            </View>
+
+        <View key={item.id} style={styles.cardContainer}>
+          <Image
+            source={{
+              uri: item.imageUrl,
+            }}
+            style={styles.image}
+          />
+          <View style={styles.row}>
+            <Text style={styles.itemText}>{item.program}</Text>
+            <View style={styles.divider} />
+            <Text style={styles.itemText}>${item.description}</Text>
           </View>
-        ))}
+        </View>
+
         <View style={styles.checkoutAreaContainer}>
           <TouchableOpacity
             disabled={!loading}
