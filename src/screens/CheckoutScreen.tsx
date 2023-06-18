@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Alert,
   Image,
@@ -10,15 +10,15 @@ import {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
     flex: 1,
     backgroundColor: 'gray',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   boxedContainer: {
     width: '80%',
-    paddingHorizontal: 100,
-    paddingVertical: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
     borderRadius: 5,
     backgroundColor: '#9c333c',
   },
@@ -26,43 +26,69 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'white',
     paddingHorizontal: 16,
-    alignItems: 'center',
     paddingVertical: 8,
-  },
-
-  row: {
-    flexGrow: 1,
+    marginBottom: 16,
+    borderRadius: 5,
     alignItems: 'center',
+  },
+  row: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 8,
   },
   checkoutButton: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     borderRadius: 5,
     backgroundColor: '#db0d48',
+    marginTop: 16,
   },
-  headingText: {fontSize: 24, color: 'white'},
-  itemText: {fontSize: 16, color: 'black'},
-  divider: {marginLeft: 16},
+  headingText: {
+    fontSize: 24,
+    color: 'white',
+    marginBottom: 8,
+  },
+  itemText: {
+    fontSize: 16,
+    color: 'black',
+  },
+  image: {
+    width: 64,
+    height: 64,
+    marginRight: 16,
+    borderRadius: 5,
+  },
+  checkoutText: {
+    fontSize: 16,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 8,
+  },
+
+  cartContainer: {marginVertical: 8},
   checkoutAreaContainer: {
     alignItems: 'center',
     marginTop: 16,
   },
-  checkoutText: {fontSize: 16, color: 'white'},
-  cartContainer: {marginVertical: 8},
 });
 
 const CheckoutScreen = (program: any) => {
   const [loading, setLoading] = useState(false);
   const [item, setItem] = useState({});
+
   useEffect(() => {
     setItem(program.route.params.program);
   }, []);
+
   const initializePaymentSheet = async () => {
     const {paymentIntent, ephemeralKey, customer} =
       await fetchPaymentSheetParams();
   };
+
   const fetchPaymentSheetParams = async () => {
     const response = await fetch(
       `http://localhost:7001/api/payment/paymentIntent`,
@@ -77,6 +103,7 @@ const CheckoutScreen = (program: any) => {
     useEffect(() => {
       initializePaymentSheet();
     }, []);
+
     const {paymentIntentId, ephemeralKey, customerId} = await response.json();
 
     return {
@@ -96,15 +123,9 @@ const CheckoutScreen = (program: any) => {
         </View>
 
         <View key={item.id} style={styles.cardContainer}>
-          <Image
-            source={{
-              uri: item.imageUrl,
-            }}
-            style={styles.image}
-          />
-          <View style={styles.row}>
+          <Image source={{uri: item.imageUrl}} style={styles.image} />
+          <View>
             <Text style={styles.itemText}>{item.program}</Text>
-            <View style={styles.divider} />
             <Text style={styles.itemText}>${item.description}</Text>
           </View>
         </View>
@@ -121,4 +142,5 @@ const CheckoutScreen = (program: any) => {
     </View>
   );
 };
+
 export default CheckoutScreen;
