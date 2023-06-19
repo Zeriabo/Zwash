@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -16,19 +15,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   boxedContainer: {
-    width: '80%',
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+    width: '100%',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
     borderRadius: 5,
-    backgroundColor: '#9c333c',
+    backgroundColor: 'gray',
   },
   cardContainer: {
-    flexDirection: 'row',
+    height: '60%',
+    flexDirection: 'column',
     backgroundColor: 'white',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginBottom: 16,
-    borderRadius: 5,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    marginBottom: 10,
+    borderRadius: 50,
     alignItems: 'center',
   },
   row: {
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 5,
-    backgroundColor: '#db0d48',
+    backgroundColor: 'purple',
     marginTop: 16,
   },
   headingText: {
@@ -52,6 +52,9 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 16,
     color: 'black',
+    marginLeft: 8, // Added margin to improve text spacing
+    marginTop: 4,
+    letterSpacing: 1,
   },
   image: {
     width: 64,
@@ -68,6 +71,9 @@ const styles = StyleSheet.create({
     color: 'red',
     marginBottom: 8,
   },
+  pageBreak: {
+    marginVertical: 10,
+  },
 
   cartContainer: {marginVertical: 8},
   checkoutAreaContainer: {
@@ -83,7 +89,7 @@ const CheckoutScreen = (program: any) => {
   useEffect(() => {
     setItem(program.route.params.program);
   }, []);
-
+  console.log(item);
   const initializePaymentSheet = async () => {
     const {paymentIntent, ephemeralKey, customer} =
       await fetchPaymentSheetParams();
@@ -126,7 +132,8 @@ const CheckoutScreen = (program: any) => {
           <Image source={{uri: item.imageUrl}} style={styles.image} />
           <View>
             <Text style={styles.itemText}>{item.program}</Text>
-            <Text style={styles.itemText}>${item.description}</Text>
+            <View style={styles.pageBreak} />
+            <Text style={styles.itemText}>{item.description}</Text>
           </View>
         </View>
 
@@ -135,7 +142,7 @@ const CheckoutScreen = (program: any) => {
             disabled={!loading}
             onPress={openPaymentSheet}
             style={styles.checkoutButton}>
-            <Text style={styles.checkoutText}>Checkout</Text>
+            <Text style={styles.checkoutText}>Pay</Text>
           </TouchableOpacity>
         </View>
       </View>
