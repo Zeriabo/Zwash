@@ -89,7 +89,7 @@ const CheckoutScreen = (program: any) => {
   useEffect(() => {
     setItem(program.route.params.program);
   }, []);
-  console.log(item);
+
   const initializePaymentSheet = async () => {
     const {paymentIntent, ephemeralKey, customer} =
       await fetchPaymentSheetParams();
@@ -134,6 +134,7 @@ const CheckoutScreen = (program: any) => {
             <Text style={styles.itemText}>{item.program}</Text>
             <View style={styles.pageBreak} />
             <Text style={styles.itemText}>{item.description}</Text>
+            <Text style={styles.itemText}>Price: €{item.price}</Text>
           </View>
         </View>
 
