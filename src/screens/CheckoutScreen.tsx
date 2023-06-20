@@ -52,7 +52,15 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 16,
     color: 'black',
-    marginLeft: 8, // Added margin to improve text spacing
+    marginLeft: 8,
+    marginTop: 4,
+    letterSpacing: 1,
+  },
+  itemPrice: {
+    fontSize: 16,
+    fontWeight: 500,
+    color: 'black',
+    marginLeft: 8,
     marginTop: 4,
     letterSpacing: 1,
   },
@@ -132,9 +140,9 @@ const CheckoutScreen = (program: any) => {
           <Image source={{uri: item.imageUrl}} style={styles.image} />
           <View>
             <Text style={styles.itemText}>{item.program}</Text>
+            <Text style={styles.itemPrice}>Price: €{item.price}</Text>
             <View style={styles.pageBreak} />
             <Text style={styles.itemText}>{item.description}</Text>
-            <Text style={styles.itemText}>Price: €{item.price}</Text>
           </View>
         </View>
 
