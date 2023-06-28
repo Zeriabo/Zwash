@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import Stripe from 'react-stripe-checkout';
 import {
   Alert,
   Image,
@@ -7,6 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -92,27 +95,51 @@ const styles = StyleSheet.create({
 
 const CheckoutScreen = (program: any) => {
   const [loading, setLoading] = useState(false);
-  const [item, setItem] = useState({});
 
+  const navigation = useNavigation();
+
+  const [item, setItem] = useState({});
   useEffect(() => {
     setItem(program.route.params.program);
   }, []);
 
   const initializePaymentSheet = async () => {
     const {paymentIntent, ephemeralKey, customer} =
-      await fetchPaymentSheetParams();
+      await fetchPaymentSheetParams(
+        'pk_test_51NInIUC7hkCZnQICpeKcU6piJANDfXyV3wcXXFPP39hu4KlZRMj4AvuHPiSv5Kv30KGK79zFRMRfGR2rtw0XQJEV00IYaSztHB',
+      );
   };
-
-  const fetchPaymentSheetParams = async () => {
-    const response = await fetch(
-      `http://localhost:7001/api/payment/paymentIntent`,
-      {
-        method: 'POST',
+  async function handleToken(token: {id: any}) {
+    console.log(token);
+    await axios
+      .post('http://localhost:8080/v1/payment/charge', '', {
         headers: {
-          'Content-Type': 'application/json',
+          token: token.id,
+          amount: 500,
         },
+      })
+      .then(() => {
+        console.log('Payment Success');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  const fetchPaymentSheetParams = async (token: any) => {
+    const response = await fetch(`http://localhost:7001/v1/payment/charge`, {
+      method: 'POST',
+      headers: {
+        token: token.id,
+        amount: '500',
       },
-    );
+    })
+      .then(() => {
+        Alert.alert('Payment Success');
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
     useEffect(() => {
       initializePaymentSheet();
@@ -127,8 +154,12 @@ const CheckoutScreen = (program: any) => {
     };
   };
 
-  const openPaymentSheet = async () => {};
-
+  const openPaymentSheet = async () => {
+    // Perform necessary actions before opening payment sheet
+    // await initializePaymentSheet();
+    // Open payment sheet or navigate to payment screen
+    navigation.navigate('PaymentScreen');
+  };
   return (
     <View style={styles.mainContainer}>
       <View style={styles.boxedContainer}>
@@ -148,10 +179,9 @@ const CheckoutScreen = (program: any) => {
 
         <View style={styles.checkoutAreaContainer}>
           <TouchableOpacity
-            disabled={!loading}
             onPress={openPaymentSheet}
             style={styles.checkoutButton}>
-            <Text style={styles.checkoutText}>Pay</Text>
+            <Text style={styles.checkoutText}>Checkout</Text>
           </TouchableOpacity>
         </View>
       </View>

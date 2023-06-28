@@ -12,6 +12,7 @@ import BuywashScreen from './src/screens/BuywashScreen';
 import store from './src/redux/store';
 import MessageDisplay from './src/components/MessageDisplay';
 import CheckoutScreen from './src/screens/CheckoutScreen';
+import PaymentScreen from './src/screens/PaymentScreen';
 
 const RootStack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ function App(): JSX.Element {
           <RootStack.Screen name="StationPage" component={StationPage} />
           <RootStack.Screen name="Buywash" component={BuywashScreen} />
           <RootStack.Screen name="CheckoutScreen" component={CheckoutScreen} />
+          <RootStack.Screen name="PaymentScreen" component={PaymentScreen} />
         </RootStack.Navigator>
       </NavigationContainer>
     </Provider>
