@@ -8,6 +8,7 @@ import {
   Alert,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {create_paymentIntent} from '../redux/actions/BuyActions';
 
 const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
   const dispatch = useDispatch();
@@ -26,10 +27,17 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
         <Text style={styles.programDescription}>
           {selectedProgram.description}
         </Text>
+        <Text style={styles.programPrice}>Price: {selectedProgram.price}</Text>
         <Button
           title="Buy Now"
           onPress={() => {
-            setProgram(selectedProgram);
+            setProgram({
+              ...selectedProgram,
+              '@class': 'com.zwash.pojos.ConcreteCarWashingProgram',
+            });
+            console.log(program);
+            //create payment intent then go to check out screen.
+            dispatch(create_paymentIntent(program));
             navigation.navigate('CheckoutScreen', {program: selectedProgram});
           }}
         />
@@ -61,6 +69,11 @@ const styles = StyleSheet.create({
   programDescription: {
     fontSize: 16,
     color: 'white',
+    marginBottom: 20,
+  },
+  programPrice: {
+    fontSize: 16,
+    color: 'red',
     marginBottom: 20,
   },
 });

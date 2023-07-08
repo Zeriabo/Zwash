@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Stripe from 'react-stripe-checkout';
+import {useDispatch} from 'react-redux';
 import {
   Alert,
   Image,
@@ -10,6 +11,8 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
+import {checkout} from '../redux/actions/BuyActions';
+
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -95,7 +98,7 @@ const styles = StyleSheet.create({
 
 const CheckoutScreen = (program: any) => {
   const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [item, setItem] = useState({});
@@ -155,10 +158,8 @@ const CheckoutScreen = (program: any) => {
   };
 
   const openPaymentSheet = async () => {
-    // Perform necessary actions before opening payment sheet
-    // await initializePaymentSheet();
-    // Open payment sheet or navigate to payment screen
-    navigation.navigate('PaymentScreen');
+    // begin the payment process by calling payment intent
+    dispatch(checkout(item));
   };
   return (
     <View style={styles.mainContainer}>
@@ -176,7 +177,6 @@ const CheckoutScreen = (program: any) => {
             <Text style={styles.itemText}>{item.description}</Text>
           </View>
         </View>
-
         <View style={styles.checkoutAreaContainer}>
           <TouchableOpacity
             onPress={openPaymentSheet}

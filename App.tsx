@@ -13,26 +13,32 @@ import store from './src/redux/store';
 import MessageDisplay from './src/components/MessageDisplay';
 import CheckoutScreen from './src/screens/CheckoutScreen';
 import PaymentScreen from './src/screens/PaymentScreen';
+import {StripeProvider} from '@stripe/stripe-react-native';
 
 const RootStack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <MessageDisplay />
-        <RootStack.Navigator initialRouteName="Home">
-          <RootStack.Screen name="Home" component={HomeScreen} />
-          <RootStack.Screen name="SignIn" component={SignInScreen} />
-          <RootStack.Screen name="SignUp" component={SignUpScreen} />
-          <RootStack.Screen name="Stations" component={Stations} />
-          <RootStack.Screen name="StationPage" component={StationPage} />
-          <RootStack.Screen name="Buywash" component={BuywashScreen} />
-          <RootStack.Screen name="CheckoutScreen" component={CheckoutScreen} />
-          <RootStack.Screen name="PaymentScreen" component={PaymentScreen} />
-        </RootStack.Navigator>
-      </NavigationContainer>
-    </Provider>
+    <StripeProvider publishableKey="pk_test_51NInIUC7hkCZnQICpeKcU6piJANDfXyV3wcXXFPP39hu4KlZRMj4AvuHPiSv5Kv30KGK79zFRMRfGR2rtw0XQJEV00IYaSztHB">
+      <Provider store={store}>
+        <NavigationContainer>
+          <MessageDisplay />
+          <RootStack.Navigator initialRouteName="Home">
+            <RootStack.Screen name="Home" component={HomeScreen} />
+            <RootStack.Screen name="SignIn" component={SignInScreen} />
+            <RootStack.Screen name="SignUp" component={SignUpScreen} />
+            <RootStack.Screen name="Stations" component={Stations} />
+            <RootStack.Screen name="StationPage" component={StationPage} />
+            <RootStack.Screen name="Buywash" component={BuywashScreen} />
+            <RootStack.Screen
+              name="CheckoutScreen"
+              component={CheckoutScreen}
+            />
+            <RootStack.Screen name="PaymentScreen" component={PaymentScreen} />
+          </RootStack.Navigator>
+        </NavigationContainer>
+      </Provider>
+    </StripeProvider>
   );
 }
 
