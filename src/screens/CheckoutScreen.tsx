@@ -13,6 +13,7 @@ import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {checkout, create_paymentIntent} from '../redux/actions/BuyActions';
 import {useStripe} from '@stripe/stripe-react-native';
+import {NavigationRoute, NavigationScreenProp} from 'react-navigation';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -96,12 +97,14 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
 });
+interface Props {
+  navigation: NavigationScreenProp<NavigationRoute>;
+}
 
-const CheckoutScreen = (program: any) => {
+const CheckoutScreen: React.FC<Props> = (program: any, {navigation}) => {
   const [loading, setLoading] = useState(false);
   const {initPaymentSheet, presentPaymentSheet} = useStripe();
   const dispatch = useDispatch();
-  const navigation = useNavigation();
   const cart = useSelector((state: any) => state);
   const [item, setItem] = useState({});
 
@@ -166,6 +169,7 @@ const CheckoutScreen = (program: any) => {
   const openPaymentSheet = async () => {
     // get the payment intent key and pay;
     dispatch(create_paymentIntent(item));
+    navigation.navigate('PaymentConfirmation');
   };
   return (
     <View style={styles.mainContainer}>
