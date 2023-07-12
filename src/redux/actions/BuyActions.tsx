@@ -2,6 +2,7 @@ import axios from 'axios';
 import {Dispatch} from 'redux';
 import Config from 'react-native-config';
 import {addMessage, clearMessages} from './messageActions';
+import {navigateToConfirmationPage} from './NavigationActions'; // Import your navigation action
 
 export const buyWash = (program: any) => {
   return {
@@ -15,8 +16,10 @@ export const checkout = (program: any) => {
     console.log(program);
     await axios
       .post(Config.REACT_APP_SERVER_URL + '/v1/payment/create', program)
-      .then(response =>
-        dispatch({type: 'CHECKOUT_SUCCESS', payload: response.data}),
+      .then(
+        response =>
+          dispatch({type: 'CHECKOUT_SUCCESS', payload: response.data}),
+        // navigation.dispatch(navigateToConfirmationPage()); // Dispatch your navigation action
       )
       .catch(error => {
         console.log(error);
