@@ -1,5 +1,6 @@
 const initialState = {
   washes: [], // Initial washes state
+  pi: null,
 };
 
 const buyReducer = (
@@ -23,11 +24,11 @@ const buyReducer = (
         ...state,
       };
     case 'PAYMENT_INTENT_SUCCESS':
-      console.log(action);
-      console.log(state);
       return {
         ...state,
+        pi: action.payload,
       };
+
     default:
       return state;
   }

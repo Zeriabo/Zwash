@@ -12,7 +12,7 @@ import {create_paymentIntent} from '../redux/actions/BuyActions';
 
 const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
   const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user);
+  const buy = useSelector((state: any) => state);
   const selectedProgram = route.params.selectedProgram;
   const [checkoutUrl, setCheckoutUrl] = useState('');
   const [program, setProgram] = useState({});
@@ -35,9 +35,7 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
               ...selectedProgram,
               '@class': 'com.zwash.pojos.ConcreteCarWashingProgram',
             });
-            console.log(program);
-            //create payment intent then go to check out screen.
-            dispatch(create_paymentIntent(program));
+
             navigation.navigate('CheckoutScreen', {program: selectedProgram});
           }}
         />

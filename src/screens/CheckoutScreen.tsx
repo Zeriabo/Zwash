@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Stripe from 'react-stripe-checkout';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   Alert,
   Image,
@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
-import {checkout} from '../redux/actions/BuyActions';
+import {checkout, create_paymentIntent} from '../redux/actions/BuyActions';
+import {useStripe} from '@stripe/stripe-react-native';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -98,12 +99,17 @@ const styles = StyleSheet.create({
 
 const CheckoutScreen = (program: any) => {
   const [loading, setLoading] = useState(false);
+  const {initPaymentSheet, presentPaymentSheet} = useStripe();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const cart = useSelector((state: any) => state);
   const [item, setItem] = useState({});
+
   useEffect(() => {
-    setItem(program.route.params.program);
+    setItem({
+      ...program.route.params.program,
+      '@class': 'com.zwash.pojos.ConcreteCarWashingProgram',
+    });
   }, []);
 
   const initializePaymentSheet = async () => {
@@ -158,8 +164,8 @@ const CheckoutScreen = (program: any) => {
   };
 
   const openPaymentSheet = async () => {
-    // begin the payment process by calling payment intent
-    dispatch(checkout(item));
+    // get the payment intent key and pay;
+    dispatch(create_paymentIntent(item));
   };
   return (
     <View style={styles.mainContainer}>

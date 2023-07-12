@@ -49,8 +49,6 @@ const Stations: React.FC<Props> = ({navigation}) => {
           longitudeDelta: 0.01,
         };
         setInitialRegion(region);
-        console.log(region);
-        console.log(position);
       },
       error => {
         console.log('Geolocation error:', error);
@@ -66,7 +64,6 @@ const Stations: React.FC<Props> = ({navigation}) => {
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         getCurrentLocation();
-        console.log('Location permission granted');
       } else {
         console.log('Location permission denied');
       }

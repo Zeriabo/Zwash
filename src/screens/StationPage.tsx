@@ -17,7 +17,6 @@ function StationPage({route, navigation}: Props) {
 
   const handleProgramSelection = (selectedProgram: CarWashingProgram) => {
     // Perform the action when a program is selected
-    console.log('Selected Program:', selectedProgram);
     navigation.navigate('Buywash', {selectedProgram});
     // Add your logic here to handle program selection
   };

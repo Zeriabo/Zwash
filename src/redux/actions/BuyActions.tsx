@@ -34,7 +34,7 @@ export const create_paymentIntent = (program: any) => {
     program.updatedAt = new Date(program.updatedAt);
     program.createdAt = new Date(program.createdAt);
     await axios
-      .post(
+      .get(
         Config.REACT_APP_SERVER_URL + '/v1/payment/create-payment-intent',
         program,
       )
@@ -42,7 +42,6 @@ export const create_paymentIntent = (program: any) => {
         dispatch({type: 'PAYMENT_INTENT_SUCCESS', payload: response.data}),
       )
       .catch(error => {
-        console.log(error.response);
         dispatch(addMessage({id: 1, text: error.response.data}));
         setTimeout(() => {
           dispatch(clearMessages());

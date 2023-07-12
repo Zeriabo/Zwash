@@ -35,10 +35,6 @@ function PaymentScreen(payment: any) {
   return (
     <View style={styles.mainContainer}>
       <Text>shu eshbaak</Text>
-      {/* <StripeCheckout
-        stripeKey="pk_test_51NInIUC7hkCZnQICpeKcU6piJANDfXyV3wcXXFPP39hu4KlZRMj4AvuHPiSv5Kv30KGK79zFRMRfGR2rtw0XQJEV00IYaSztHB"
-        token={handleToken}
-      /> */}
     </View>
   );
 }
