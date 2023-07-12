@@ -14,6 +14,7 @@ import MessageDisplay from './src/components/MessageDisplay';
 import CheckoutScreen from './src/screens/CheckoutScreen';
 import PaymentScreen from './src/screens/PaymentScreen';
 import {StripeProvider} from '@stripe/stripe-react-native';
+import PaymentConfirmation from './src/screens/PaymentConfirmation';
 
 const RootStack = createNativeStackNavigator();
 
@@ -35,6 +36,10 @@ function App(): JSX.Element {
               component={CheckoutScreen}
             />
             <RootStack.Screen name="PaymentScreen" component={PaymentScreen} />
+            <RootStack.Screen
+              name="PaymentConfirmation"
+              component={PaymentConfirmation}
+            />
           </RootStack.Navigator>
         </NavigationContainer>
       </Provider>
