@@ -5,7 +5,11 @@ const initialState = {
 
 const buyReducer = (
   state = initialState,
-  action: {type: any; program: any},
+  action: {
+    [x: string]: any;
+    type: any;
+    program: any;
+  },
 ) => {
   console.log('Current state:', state); // Print the current state before updating
   console.log('Action:', action); // Print the dispatched action

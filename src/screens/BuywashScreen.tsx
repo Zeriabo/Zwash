@@ -10,13 +10,37 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {create_paymentIntent} from '../redux/actions/BuyActions';
 
+type Props = {
+  route: any;
+  navigation: any;
+};
+
 const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const buy = useSelector((state: any) => state);
   const selectedProgram = route.params.selectedProgram;
-  const [checkoutUrl, setCheckoutUrl] = useState('');
   const [program, setProgram] = useState({});
+  const [paymentIntent, setPaymentIntent] = useState('');
 
+  useEffect(() => {
+    setProgram({
+      ...selectedProgram,
+      '@class': 'com.zwash.pojos.ConcreteCarWashingProgram',
+    });
+  }, [selectedProgram]);
+
+  useEffect(() => {
+    if (buy.cart.pi && buy.cart.pi.paymentIntentId) {
+      setPaymentIntent(buy.cart.pi.paymentIntentId);
+    } else {
+      setPaymentIntent('');
+    }
+  }, [program, buy.cart.pi]);
+  useEffect(() => {
+    if (Object.keys(program).length > 0) {
+      dispatch(create_paymentIntent(program));
+    }
+  }, [program, dispatch]);
   return (
     <View style={styles.container}>
       {/* <ImageBackground
@@ -30,6 +54,7 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
         <Text style={styles.programPrice}>Price: {selectedProgram.price}</Text>
         <Button
           title="Buy Now"
+          disabled={!paymentIntent}
           onPress={() => {
             setProgram({
               ...selectedProgram,
