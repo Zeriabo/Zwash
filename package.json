@@ -12,6 +12,8 @@
   "dependencies": {
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
+    "@stripe/react-stripe-js": "^2.1.1",
+    "@stripe/stripe-js": "^1.54.1",
     "@stripe/stripe-react-native": "^0.28.0",
     "axios": "^1.4.0",
     "expo-location": "^15.1.1",

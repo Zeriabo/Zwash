@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Button,
-  ImageBackground,
-  Alert,
-} from 'react-native';
+import {View, Text, StyleSheet, Button, ImageBackground} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {create_paymentIntent} from '../redux/actions/BuyActions';
 
@@ -20,8 +13,9 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
   const buy = useSelector((state: any) => state);
   const selectedProgram = route.params.selectedProgram;
   const [program, setProgram] = useState({});
-  const [paymentIntent, setPaymentIntent] = useState('');
-
+  const [cartItem, setCartItem] = useState({});
+  const [paymentMethod, setPaymentMethod] = useState('');
+  //i need an object with payment method and program to buy
   useEffect(() => {
     setProgram({
       ...selectedProgram,
@@ -31,21 +25,27 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
 
   useEffect(() => {
     if (buy.cart.pi && buy.cart.pi.paymentIntentId) {
-      setPaymentIntent(buy.cart.pi.paymentIntentId);
+      setPaymentMethod(buy.cart.pi.paymentMethod);
     } else {
-      setPaymentIntent('');
+      setPaymentMethod('');
     }
-  }, [program, buy.cart.pi]);
-  useEffect(() => {
-    if (Object.keys(program).length > 0) {
-      dispatch(create_paymentIntent(program));
-    }
-  }, [program, dispatch]);
+  }, [buy.cart.pi]);
+
+  const handlePaymentMethodSelection = (method: string) => {
+    setPaymentMethod(method);
+    console.log(method);
+    console.log('program');
+    console.log(program);
+    dispatch(create_paymentIntent({...program}, method));
+    navigation.navigate('CheckoutForm');
+  };
+
   return (
     <View style={styles.container}>
       {/* <ImageBackground
         source={require('../assets/background.jpg')}
-        style={styles.imageBackground}> */}
+        style={styles.imageBackground}
+      > */}
       <View style={styles.detailsContainer}>
         <Text style={styles.programTitle}>{selectedProgram.program}</Text>
         <Text style={styles.programDescription}>
@@ -53,14 +53,24 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
         </Text>
         <Text style={styles.programPrice}>Price: {selectedProgram.price}</Text>
         <Button
+          title="Credit Card"
+          disabled={paymentMethod === 'creditCard'}
+          onPress={() => handlePaymentMethodSelection('credit_card')}
+        />
+        <Button
+          title="Apple Pay"
+          disabled={paymentMethod === 'applePay'}
+          onPress={() => handlePaymentMethodSelection('apple_pay')}
+        />
+        <Button
+          title="Google Pay"
+          disabled={paymentMethod === 'googlePay'}
+          onPress={() => handlePaymentMethodSelection('google_pay')}
+        />
+        <Button
           title="Buy Now"
-          disabled={!paymentIntent}
+          // disabled={}
           onPress={() => {
-            setProgram({
-              ...selectedProgram,
-              '@class': 'com.zwash.pojos.ConcreteCarWashingProgram',
-            });
-
             navigation.navigate('CheckoutScreen', {program: selectedProgram});
           }}
         />

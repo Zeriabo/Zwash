@@ -45,16 +45,17 @@ const CheckoutScreen = ({route}) => {
   }, []);
 
   const confirmPayment = async () => {
+    console.log(pi);
     const payment = {
       '@class': 'com.zwash.pojos.ConfirmPaymentRequest',
       paymentIntentId: pi.paymentIntentId,
-      paymentMethodId: 1,
+      paymentMethodId: pi.paymentMethodId,
     };
 
     dispatch(confirm_payment(payment))
       .then(() => {
         // Payment confirmation succeeded, navigate to home
-        navigation.navigate('Home');
+        navigation.navigate('Stations');
       })
       .catch(error => {
         // Payment confirmation failed, display error message

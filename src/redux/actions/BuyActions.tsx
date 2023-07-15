@@ -28,16 +28,25 @@ export const checkout = (program: any) => {
   };
 };
 
-export const create_paymentIntent = (program: any) => {
+export const create_paymentIntent = (program: any, method: any) => {
   return async (dispatch: Dispatch<any>) => {
     //fix later the dates
     program.updatedAt = new Date(program.updatedAt);
     program.createdAt = new Date(program.createdAt);
+    const paymentMethod = {
+      '@class': 'com.zwash.pojos.PaymentMethod',
+      paymentMethodType: method,
+    };
+    const paymentRequest = {
+      '@class': 'com.zwash.pojos.PaymentRequest',
+      program,
+      paymentMethod, // Add paymentMethod to the payload
+    };
 
     await axios
       .post(
         Config.REACT_APP_SERVER_URL + '/v1/payment/create-payment-intent',
-        program,
+        paymentRequest,
       )
       .then(response => {
         console.log(response);
@@ -45,7 +54,7 @@ export const create_paymentIntent = (program: any) => {
       })
       .catch(error => {
         console.log(error);
-        dispatch(addMessage({id: 1, text: error.response.data}));
+        dispatch(addMessage({id: 1, text: error}));
         setTimeout(() => {
           dispatch(clearMessages());
         }, 2000);
