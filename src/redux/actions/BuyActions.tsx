@@ -34,13 +34,11 @@ export const create_paymentIntent = (program: any, method: any) => {
     program.updatedAt = new Date(program.updatedAt);
     program.createdAt = new Date(program.createdAt);
     const paymentMethod = {
-      '@class': 'com.zwash.pojos.PaymentMethod',
       paymentMethodType: method,
     };
     const paymentRequest = {
-      '@class': 'com.zwash.pojos.PaymentRequest',
       program,
-      paymentMethod, // Add paymentMethod to the payload
+      paymentMethod,
     };
 
     await axios

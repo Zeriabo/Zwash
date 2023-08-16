@@ -19,7 +19,6 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
   useEffect(() => {
     setProgram({
       ...selectedProgram,
-      '@class': 'com.zwash.pojos.ConcreteCarWashingProgram',
     });
   }, [selectedProgram]);
 
@@ -33,9 +32,6 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
 
   const handlePaymentMethodSelection = (method: string) => {
     setPaymentMethod(method);
-    console.log(method);
-    console.log('program');
-    console.log(program);
     dispatch(create_paymentIntent({...program}, method));
     navigation.navigate('CheckoutForm');
   };
