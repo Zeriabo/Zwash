@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 const CheckoutScreen = ({route}) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const pi = useSelector(state => state.cart.pi);
+  const pi = useSelector((state: any) => state.cart.pi);
   const navigation = useNavigation();
 
   const item = route.params;
@@ -47,7 +47,6 @@ const CheckoutScreen = ({route}) => {
   const confirmPayment = async () => {
     console.log(pi);
     const payment = {
-      '@class': 'com.zwash.pojos.ConfirmPaymentRequest',
       paymentIntentId: pi.paymentIntentId,
       paymentMethodId: pi.paymentMethodId,
     };

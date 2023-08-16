@@ -9,6 +9,7 @@ const CheckoutForm = () => {
   const state = useSelector((state: any) => state);
   console.log(state.cart.pi);
   const handlePayment = async () => {
+    console.log(cardDetails);
     const {error} = await confirmPayment(state.cart.pi, {
       type: 'Card',
       paymentMethodType: 'Card',
@@ -16,7 +17,7 @@ const CheckoutForm = () => {
     });
 
     if (error) {
-      Alert.alert('Error', 'Payment failed.');
+      Alert.alert('Error', 'Payment failed: ' + error);
       console.log(error);
     } else {
       Alert.alert('Success', 'Payment successful.');
@@ -39,7 +40,7 @@ const CheckoutForm = () => {
           height: 50,
           marginVertical: 30,
         }}
-        onCardChange={cardDetails => {
+        onCardChange={(cardDetails: any) => {
           setCardDetails(cardDetails);
         }}
         onFocus={focusedField => {

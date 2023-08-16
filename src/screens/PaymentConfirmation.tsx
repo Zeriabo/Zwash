@@ -21,7 +21,6 @@ const PaymentConfirmation = () => {
   // };
   async function confirmPayment() {
     const payment = {
-      '@class': 'com.zwash.pojos.ConfirmPaymentRequest',
       paymentIntentId: pi.paymentIntentId,
       paymentMethodId: 1,
     };
