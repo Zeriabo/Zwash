@@ -13,12 +13,11 @@ interface Props {
 function StationPage({route, navigation}: Props) {
   const {station} = route.params;
 
-  const programs: CarWashingProgram[] = station.programs[1];
+  const programs: CarWashingProgram[] = station.programs;
 
   const handleProgramSelection = (selectedProgram: CarWashingProgram) => {
     // Perform the action when a program is selected
     navigation.navigate('Buywash', {selectedProgram});
-    // Add your logic here to handle program selection
   };
 
   return (

@@ -111,8 +111,8 @@ const Stations: React.FC<Props> = ({navigation}) => {
     <View style={styles.container}>
       <Text style={styles.title}>Stations</Text>
       <MapView style={styles.map} initialRegion={initialRegion}>
-        {stations[1] &&
-          stations[1].map((station: any) => (
+        {stations &&
+          stations.map((station: any) => (
             <Marker
               key={station.id}
               coordinate={{

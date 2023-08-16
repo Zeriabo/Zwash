@@ -32,7 +32,6 @@ const SignInScreen: React.FC<Props> = ({navigation}) => {
 
   const handleSignIn = () => {
     const user = {
-      '@class': 'com.zwash.pojos.SignInfo',
       username: username,
       password: password,
     };
