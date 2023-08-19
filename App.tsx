@@ -18,42 +18,52 @@ import PaymentConfirmation from './src/screens/PaymentConfirmation';
 import CheckoutForm from './src/components/CheckoutForm';
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
+import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
+
 const RootStack = createNativeStackNavigator();
 const stripePromise = loadStripe(
   'pk_test_51NInIUC7hkCZnQICpeKcU6piJANDfXyV3wcXXFPP39hu4KlZRMj4AvuHPiSv5Kv30KGK79zFRMRfGR2rtw0XQJEV00IYaSztHB',
 );
-
+const client = new ApolloClient({
+  uri: 'http://localhost:7001/graphiql',
+  cache: new InMemoryCache(),
+});
 function App(): JSX.Element {
   return (
     <StripeProvider publishableKey="pk_test_51NInIUC7hkCZnQICpeKcU6piJANDfXyV3wcXXFPP39hu4KlZRMj4AvuHPiSv5Kv30KGK79zFRMRfGR2rtw0XQJEV00IYaSztHB">
       <Elements stripe={stripePromise}>
         <Provider store={store}>
-          <NavigationContainer>
-            <MessageDisplay />
-            <RootStack.Navigator initialRouteName="Home">
-              <RootStack.Screen name="Home" component={HomeScreen} />
-              <RootStack.Screen name="SignIn" component={SignInScreen} />
-              <RootStack.Screen name="SignUp" component={SignUpScreen} />
-              <RootStack.Screen name="Stations" component={Stations} />
-              <RootStack.Screen name="StationPage" component={StationPage} />
-              <RootStack.Screen name="Buywash" component={BuywashScreen} />
-              <RootStack.Screen
-                name="CheckoutScreen"
-                component={CheckoutScreen}
-              />
+          <ApolloProvider client={client}>
+            <NavigationContainer>
+              <MessageDisplay />
+              <RootStack.Navigator initialRouteName="Home">
+                <RootStack.Screen name="Home" component={HomeScreen} />
+                <RootStack.Screen name="SignIn" component={SignInScreen} />
+                <RootStack.Screen name="SignUp" component={SignUpScreen} />
+                <RootStack.Screen name="Stations" component={Stations} />
+                <RootStack.Screen name="StationPage" component={StationPage} />
+                <RootStack.Screen name="Buywash" component={BuywashScreen} />
+                <RootStack.Screen
+                  name="CheckoutScreen"
+                  component={CheckoutScreen}
+                />
 
-              <RootStack.Screen
-                name="PaymentScreen"
-                component={PaymentScreen}
-              />
+                <RootStack.Screen
+                  name="PaymentScreen"
+                  component={PaymentScreen}
+                />
 
-              <RootStack.Screen
-                name="PaymentConfirmation"
-                component={PaymentConfirmation}
-              />
-              <RootStack.Screen name="CheckoutForm" component={CheckoutForm} />
-            </RootStack.Navigator>
-          </NavigationContainer>
+                <RootStack.Screen
+                  name="PaymentConfirmation"
+                  component={PaymentConfirmation}
+                />
+                <RootStack.Screen
+                  name="CheckoutForm"
+                  component={CheckoutForm}
+                />
+              </RootStack.Navigator>
+            </NavigationContainer>
+          </ApolloProvider>
         </Provider>
       </Elements>
     </StripeProvider>
