@@ -33,7 +33,7 @@ function StationPage({route, navigation}: Props) {
           key={program.id}
           style={styles.programContainer}
           onPress={() => handleProgramSelection(program)}>
-          <Text style={styles.program}>{program.program}</Text>
+          <Text style={styles.program}>{program.programType}</Text>
         </TouchableOpacity>
       ))}
     </View>
