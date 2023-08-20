@@ -14,9 +14,9 @@ function StationPage({route, navigation}: Props) {
   const {station} = route.params;
 
   const programs: CarWashingProgram[] = station.programs;
+  console.log(programs);
 
   const handleProgramSelection = (selectedProgram: CarWashingProgram) => {
-    // Perform the action when a program is selected
     navigation.navigate('Buywash', {selectedProgram});
   };
 
@@ -33,7 +33,7 @@ function StationPage({route, navigation}: Props) {
           key={program.id}
           style={styles.programContainer}
           onPress={() => handleProgramSelection(program)}>
-          <Text style={styles.program}>{program.programType}</Text>
+          <Text style={styles.program}>{program.program}</Text>
         </TouchableOpacity>
       ))}
     </View>
