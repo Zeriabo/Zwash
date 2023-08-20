@@ -17,7 +17,7 @@ const CheckoutForm = () => {
     });
 
     if (error) {
-      Alert.alert('Error', 'Payment failed: ' + error);
+      Alert.alert('Error', 'Payment failed: ' + error.message);
       console.log(error);
     } else {
       Alert.alert('Success', 'Payment successful.');
