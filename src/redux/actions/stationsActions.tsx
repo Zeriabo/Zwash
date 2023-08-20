@@ -35,7 +35,7 @@ export const fetchStations = (): ThunkAction<
             }
             programs {
               id
-              programType
+              program
               description
               price
             }
@@ -48,8 +48,18 @@ export const fetchStations = (): ThunkAction<
       const {data} = await client.query({
         query: GET_STATIONS,
       });
-
-      dispatch({type: FETCH_STATIONS_SUCCESS, stations: data.getAllStations});
+      // Remove __typename from programs array
+      const stationsWithoutTypename = data.getAllStations.map(station => ({
+        ...station,
+        programs: station.programs.map((program: any) => {
+          const {__typename, ...rest} = program;
+          return rest;
+        }),
+      }));
+      dispatch({
+        type: FETCH_STATIONS_SUCCESS,
+        stations: stationsWithoutTypename,
+      });
     } catch (error: any) {
       dispatch({type: FETCH_STATIONS_FAILURE, error: error.message as string});
     }
