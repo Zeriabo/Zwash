@@ -1,5 +1,4 @@
 import {Dispatch} from 'redux';
-import axios from 'axios';
 import {
   StationsAction,
   FETCH_STATIONS_REQUEST,
@@ -12,6 +11,8 @@ import {
 import {RootState} from '../store';
 import Config from 'react-native-config';
 import {ThunkAction} from 'redux-thunk';
+import {ApolloClient, InMemoryCache, gql} from '@apollo/client';
+import {client} from '../../../App';
 
 export const fetchStations = (): ThunkAction<
   Promise<void>,
@@ -23,36 +24,34 @@ export const fetchStations = (): ThunkAction<
     dispatch({type: FETCH_STATIONS_REQUEST});
 
     try {
-      const response = await axios.get(
-        Config.REACT_APP_SERVER_URL + '/v1/stations/',
-      );
-      const stations = response.data;
+      const GET_STATIONS = gql`
+        query {
+          getAllStations {
+            id
+            name
+            address
+            media {
+              id
+            }
+            programs {
+              id
+              programType
+              description
+              price
+            }
+            latitude
+            longitude
+          }
+        }
+      `;
 
-      dispatch({type: FETCH_STATIONS_SUCCESS, payload: stations});
+      const {data} = await client.query({
+        query: GET_STATIONS,
+      });
+
+      dispatch({type: FETCH_STATIONS_SUCCESS, stations: data.getAllStations});
     } catch (error: any) {
-      dispatch({type: FETCH_STATIONS_FAILURE, error: error.message});
-    }
-  };
-};
-
-export const fetchStationWashes = (
-  id: number,
-): ThunkAction<Promise<void>, RootState, undefined, StationsAction> => {
-  return async (
-    dispatch: Dispatch<StationsAction>,
-    getState: () => RootState,
-  ) => {
-    dispatch({type: FETCH_STATIONS_REQUEST});
-
-    try {
-      const response = await axios.get(
-        Config.REACT_APP_SERVER_URL + '/v1/stations/washes/id=' + id,
-      );
-
-      const washes = response.data;
-      dispatch({type: FETCH_WASHES_SUCCESS, payload: washes});
-    } catch (error: any) {
-      dispatch({type: FETCH_WASHES_FAILURE, error: error.message as string});
+      dispatch({type: FETCH_STATIONS_FAILURE, error: error.message as string});
     }
   };
 };
