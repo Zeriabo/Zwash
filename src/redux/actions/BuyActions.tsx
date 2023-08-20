@@ -40,6 +40,7 @@ export const create_paymentIntent = (program: any, method: any) => {
       program,
       paymentMethod,
     };
+    console.log(paymentRequest);
 
     await axios
       .post(
@@ -52,10 +53,6 @@ export const create_paymentIntent = (program: any, method: any) => {
       })
       .catch(error => {
         console.log(error);
-        dispatch(addMessage({id: 1, text: error}));
-        setTimeout(() => {
-          dispatch(clearMessages());
-        }, 2000);
       });
   };
 };

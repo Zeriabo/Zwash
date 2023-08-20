@@ -7,9 +7,9 @@ const CheckoutForm = () => {
   const {confirmPayment} = useStripe();
   const [cardDetails, setCardDetails] = useState(null);
   const state = useSelector((state: any) => state);
-  console.log(state.cart.pi);
+  console.log('pi   :' + state.cart.pi);
   const handlePayment = async () => {
-    console.log(cardDetails);
+    console.log('pi' + state.cart.pi);
     const {error} = await confirmPayment(state.cart.pi, {
       type: 'Card',
       paymentMethodType: 'Card',
