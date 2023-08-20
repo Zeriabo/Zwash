@@ -17,7 +17,7 @@ import MapView, {Marker, Region} from 'react-native-maps';
 import {NavigationScreenProp, NavigationRoute} from 'react-navigation';
 import markerIcon from '../assets/images/wash-washing.png';
 import Geolocation from 'react-native-geolocation-service';
-
+import {client} from '../../App';
 import {
   PERMISSIONS,
   check,
