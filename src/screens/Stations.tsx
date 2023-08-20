@@ -17,12 +17,20 @@ import MapView, {Marker, Region} from 'react-native-maps';
 import {NavigationScreenProp, NavigationRoute} from 'react-navigation';
 import markerIcon from '../assets/images/wash-washing.png';
 import Geolocation from 'react-native-geolocation-service';
+
 import {
   PERMISSIONS,
   check,
   openSettings,
   request,
 } from 'react-native-permissions';
+import {
+  ApolloProvider,
+  useQuery,
+  ApolloClient,
+  InMemoryCache,
+  gql,
+} from '@apollo/client';
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -30,13 +38,14 @@ interface Props {
 
 const Stations: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
+
   const [initialRegion, setInitialRegion] = useState<Region | null>(null);
   const stations: Station[] = useSelector<RootState, Station[]>(
     state => state.stations.stations,
   );
-  const error: string | null = useSelector<RootState, string | null>(
-    state => state.stations.error,
-  );
+  // const error: string | null = useSelector<RootState, string | null>(
+  //   state => state.stations.error,
+  // );
   const getCurrentLocation = () => {
     Geolocation.requestAuthorization('whenInUse');
     Geolocation.getCurrentPosition(
@@ -99,13 +108,13 @@ const Stations: React.FC<Props> = ({navigation}) => {
     navigation.navigate('StationPage', {station});
   };
 
-  if (error) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.errorText}>Error loading stations: {error}</Text>
-      </View>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <View style={styles.container}>
+  //       <Text style={styles.errorText}>Error loading stations: {error}</Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <View style={styles.container}>

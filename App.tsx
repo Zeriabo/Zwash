@@ -18,14 +18,18 @@ import PaymentConfirmation from './src/screens/PaymentConfirmation';
 import CheckoutForm from './src/components/CheckoutForm';
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
-import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
-
+import {ApolloClient, InMemoryCache, ApolloProvider, gql} from '@apollo/client';
 const RootStack = createNativeStackNavigator();
 const stripePromise = loadStripe(
   'pk_test_51NInIUC7hkCZnQICpeKcU6piJANDfXyV3wcXXFPP39hu4KlZRMj4AvuHPiSv5Kv30KGK79zFRMRfGR2rtw0XQJEV00IYaSztHB',
 );
-const client = new ApolloClient({
-  uri: 'http://localhost:7001/graphiql',
+
+export const client = new ApolloClient({
+  uri: 'http://localhost:7001/graphql',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
   cache: new InMemoryCache(),
 });
 function App(): JSX.Element {
