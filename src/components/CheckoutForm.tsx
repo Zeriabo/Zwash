@@ -1,26 +1,54 @@
 import React, {useState} from 'react';
 import {Alert, Button, View} from 'react-native';
-import {CardField, useStripe} from '@stripe/stripe-react-native';
-import {useSelector} from 'react-redux';
+import {
+  CardField,
+  ConfirmPaymentResult,
+  useStripe,
+} from '@stripe/stripe-react-native';
+import {useDispatch, useSelector} from 'react-redux';
 
-const CheckoutForm = () => {
+type Props = {
+  route: any;
+  navigation: any;
+};
+
+const CheckoutForm: React.FC<Props> = ({route, navigation}) => {
   const {confirmPayment} = useStripe();
   const [cardDetails, setCardDetails] = useState(null);
   const state = useSelector((state: any) => state);
-  console.log('pi   :' + state.cart.pi);
+  const dispatch = useDispatch();
   const handlePayment = async () => {
-    console.log('pi' + state.cart.pi);
-    const {error} = await confirmPayment(state.cart.pi, {
-      type: 'Card',
-      paymentMethodType: 'Card',
-      ...cardDetails,
-    });
+    console.log(state);
+    const updatedPaymentIntent: ConfirmPaymentResult = await confirmPayment(
+      state.cart.pi,
+      {
+        type: 'Card',
+        paymentMethodType: 'Card',
+        ...cardDetails,
+      },
+    );
 
-    if (error) {
-      Alert.alert('Error', 'Payment failed: ' + error.message);
-      console.log(error);
-    } else {
+    if (
+      updatedPaymentIntent.paymentIntent &&
+      updatedPaymentIntent.paymentIntent.status
+    ) {
+      // Show success message
       Alert.alert('Success', 'Payment successful.');
+
+      // Make an API call to create a booking
+      const response = await dispatch(createBooking());
+
+      // Check the response and navigate if needed
+      if (response.status === 201) {
+        // Booking created successfully
+        // Navigate to the "washes" page
+        navigation.navigate('Washes');
+      } else {
+        // Handle booking creation error if needed
+      }
+    } else {
+      // Show error message
+      Alert.alert('Error', 'Payment failed.');
     }
   };
 
@@ -43,11 +71,11 @@ const CheckoutForm = () => {
         onCardChange={(cardDetails: any) => {
           setCardDetails(cardDetails);
         }}
-        onFocus={focusedField => {
-          console.log('focusField', focusedField);
-        }}
+        // onFocus={focusedField => {
+        //   console.log('focusField', focusedField);
+        // }}
       />
-      <Button title="Submit" onPress={handlePayment} />
+      <Button title="Pay" onPress={handlePayment} />
     </View>
   );
 };

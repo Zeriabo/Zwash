@@ -39,13 +39,11 @@ const CheckoutScreen = ({route}) => {
   const navigation = useNavigation();
 
   const item = route.params;
-
   useEffect(() => {
     setLoading(false);
   }, []);
 
   const confirmPayment = async () => {
-    console.log(pi);
     const payment = {
       paymentIntentId: pi.paymentIntentId,
       paymentMethodId: pi.paymentMethodId,
@@ -56,7 +54,7 @@ const CheckoutScreen = ({route}) => {
         // Payment confirmation succeeded, navigate to home
         navigation.navigate('Stations');
       })
-      .catch(error => {
+      .catch((error: Error) => {
         // Payment confirmation failed, display error message
         Alert.alert('Payment Confirmation Failed', error.message);
       });
