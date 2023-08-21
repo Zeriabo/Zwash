@@ -14,8 +14,6 @@ function StationPage({route, navigation}: Props) {
   const {station} = route.params;
 
   const programs: CarWashingProgram[] = station.programs;
-  console.log(programs);
-
   const handleProgramSelection = (selectedProgram: CarWashingProgram) => {
     navigation.navigate('Buywash', {selectedProgram});
   };
