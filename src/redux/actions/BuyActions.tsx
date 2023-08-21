@@ -13,7 +13,6 @@ export const buyWash = (program: any) => {
 
 export const checkout = (program: any) => {
   return async (dispatch: Dispatch<any>) => {
-    console.log(program);
     await axios
       .post(Config.REACT_APP_SERVER_URL + '/v1/payment/create', program)
       .then(response => {
@@ -40,7 +39,6 @@ export const create_paymentIntent = (program: any, method: any) => {
       program,
       paymentMethod,
     };
-    console.log(paymentRequest);
 
     await axios
       .post(
@@ -48,7 +46,6 @@ export const create_paymentIntent = (program: any, method: any) => {
         paymentRequest,
       )
       .then(response => {
-        console.log(response);
         dispatch({type: 'PAYMENT_INTENT_SUCCESS', payload: response.data});
       })
       .catch(error => {
@@ -64,6 +61,9 @@ export const confirm_payment: any = (payment: any) => {
         payment,
       )
       .then(response => {
+        //this will return the status of the payment
+        console.log('confirm payment');
+        console.log(response);
         dispatch({type: 'PAYMENT_INTENT_SUCCESS', payload: response.data});
       })
       .catch(error => {

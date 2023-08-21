@@ -11,7 +11,6 @@ type Props = {
 const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
   const dispatch = useDispatch<any>();
   const buy = useSelector((state: any) => state);
-  console.log(route);
   const selectedProgram = route.params.selectedProgram;
   const [program, setProgram] = useState({});
   const [cartItem, setCartItem] = useState({});
@@ -33,7 +32,6 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
 
   const handlePaymentMethodSelection = (method: string) => {
     setPaymentMethod(method);
-    console.log(program);
     dispatch(create_paymentIntent({...program}, method));
     navigation.navigate('CheckoutForm');
   };
