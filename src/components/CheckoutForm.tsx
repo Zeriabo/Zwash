@@ -6,6 +6,7 @@ import {
   useStripe,
 } from '@stripe/stripe-react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {createBooking} from '../redux/actions/BookingActions';
 
 type Props = {
   route: any;
@@ -18,6 +19,7 @@ const CheckoutForm: React.FC<Props> = ({route, navigation}) => {
   const state = useSelector((state: any) => state);
   const dispatch = useDispatch();
   const handlePayment = async () => {
+    //need a set of cars to the user and select which car he wants to buy the wash
     console.log(state);
     const updatedPaymentIntent: ConfirmPaymentResult = await confirmPayment(
       state.cart.pi,
