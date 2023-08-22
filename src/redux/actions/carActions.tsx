@@ -2,6 +2,7 @@ import axios from 'axios';
 import {Dispatch} from 'redux';
 import {addMessage, clearMessages} from './messageActions';
 import Config from 'react-native-config';
+import Car from '../types/CarType';
 
 // Action types
 export const REGISTER_CAR_SUCCESS = 'REGISTER_CAR_SUCCESS';
@@ -10,8 +11,9 @@ export const GET_USER_CARS_SUCCESS = 'GET_USER_CARS_SUCCESS';
 export const SET_CAR_OWNER_SUCCESS = 'SET_CAR_OWNER_SUCCESS';
 
 // Action creators
-export const registerCarSuccess = () => ({
+export const registerCarSuccess = (car: Car) => ({
   type: REGISTER_CAR_SUCCESS,
+  payload: car,
 });
 
 export const getCarSuccess = (car: Car) => ({
@@ -37,13 +39,25 @@ export const registerCar: any = (userCar: any) => {
       );
       if (response.status === 202) {
         // Car registered successfully
-        dispatch(addMessage({id: 1, text: 'Car registered successfully'}));
-        dispatch(registerCarSuccess());
+        dispatch(
+          addMessage({
+            id: 1,
+            text: 'Car registered successfully',
+            status: 200,
+          }),
+        );
+        dispatch(registerCarSuccess(userCar));
         setTimeout(() => {
           dispatch(clearMessages());
         }, 2000);
       } else {
-        dispatch(addMessage({id: 1, text: 'Car registration failed'}));
+        dispatch(
+          addMessage({
+            id: 1,
+            text: 'Car registration failed',
+            status: 500,
+          }),
+        );
         setTimeout(() => {
           dispatch(clearMessages());
         }, 2000);
