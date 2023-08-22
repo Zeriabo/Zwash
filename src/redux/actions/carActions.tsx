@@ -28,7 +28,9 @@ export const setCarOwnerSuccess = () => ({
   type: SET_CAR_OWNER_SUCCESS,
 });
 
-export const registerCar = (userCar: any) => {
+export const registerCar: any = (userCar: any) => {
+  console.log('here registeration Car');
+  console.log(userCar);
   return async (dispatch: Dispatch<any>) => {
     try {
       const response = await axios.post(

@@ -13,7 +13,6 @@ const rootReducer = combineReducers({
   cart: buyReducer,
   booking: bookingReducer,
   cars: carReducer,
-  // Add more reducers here if needed
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
