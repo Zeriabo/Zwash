@@ -29,8 +29,6 @@ export const setCarOwnerSuccess = () => ({
 });
 
 export const registerCar: any = (userCar: any) => {
-  console.log('here registeration Car');
-  console.log(userCar);
   return async (dispatch: Dispatch<any>) => {
     try {
       const response = await axios.post(
@@ -39,19 +37,19 @@ export const registerCar: any = (userCar: any) => {
       );
       if (response.status === 202) {
         // Car registered successfully
-        dispatch(addMessage({text: 'Car registered successfully', id: 1}));
+        dispatch(addMessage({id: 1, text: 'Car registered successfully'}));
         dispatch(registerCarSuccess());
         setTimeout(() => {
           dispatch(clearMessages());
         }, 2000);
       } else {
-        dispatch(addMessage({text: 'Car registration failed', id: 1}));
+        dispatch(addMessage({id: 1, text: 'Car registration failed'}));
         setTimeout(() => {
           dispatch(clearMessages());
         }, 2000);
       }
     } catch (error) {
-      dispatch(addMessage({text: 'An error occurred', id: 1}));
+      dispatch(addMessage({id: 1, text: 'An error occurred'}));
       setTimeout(() => {
         dispatch(clearMessages());
       }, 2000);
