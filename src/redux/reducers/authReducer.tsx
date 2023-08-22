@@ -7,7 +7,6 @@ interface AuthState {
   authenticationFailed: boolean;
 }
 interface User {
-  '@class': string;
   active: boolean;
   createDateTime: string | null;
   dateOfBirth: string;
