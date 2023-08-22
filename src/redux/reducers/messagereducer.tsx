@@ -12,7 +12,6 @@ const messageReducer = (
   state = initialState,
   action: MessageAction,
 ): Message[] => {
-  console.log(action);
   switch (action.type) {
     case ADD_MESSAGE:
       return [...state, action.payload];
@@ -22,4 +21,5 @@ const messageReducer = (
       return state;
   }
 };
+
 export default messageReducer;

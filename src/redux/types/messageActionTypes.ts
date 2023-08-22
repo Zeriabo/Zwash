@@ -1,10 +1,11 @@
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const CLEAR_MESSAGES = 'CLEAR_MESSAGES';
 
-export interface Message {
+export type Message = {
   id: number;
   text: string;
-}
+  status: number; // New property for status
+};
 
 export interface AddMessageAction {
   type: typeof ADD_MESSAGE;

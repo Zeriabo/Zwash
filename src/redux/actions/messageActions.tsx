@@ -6,7 +6,7 @@ import {
 
 export const addMessage = (message: Message) => ({
   type: ADD_MESSAGE,
-  payload: message,
+  payload: message.text,
 });
 
 export const clearMessages = () => ({
