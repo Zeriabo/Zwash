@@ -17,7 +17,7 @@ import MapView, {Marker, Region} from 'react-native-maps';
 import {NavigationScreenProp, NavigationRoute} from 'react-navigation';
 import markerIcon from '../assets/images/wash-washing.png';
 import Geolocation from 'react-native-geolocation-service';
-import {client} from '../../App';
+import MainMenu from '../components/MainMenu';
 import {
   PERMISSIONS,
   check,
@@ -119,6 +119,7 @@ const Stations: React.FC<Props> = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Stations</Text>
+      <MainMenu navigation={navigation} />
       <MapView style={styles.map} initialRegion={initialRegion}>
         {stations &&
           stations.map((station: any) => (
