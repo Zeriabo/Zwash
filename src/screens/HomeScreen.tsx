@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Button, ImageBackground} from 'react-native';
 import {NavigationScreenProp, NavigationRoute} from 'react-navigation';
-
+import MainMenu from '../components/MainMenu';
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
