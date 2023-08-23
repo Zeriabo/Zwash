@@ -36,7 +36,7 @@ interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-const HomeScreen: React.FC<Props> = ({navigation}) => {
+const Main: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
 
   const [initialRegion, setInitialRegion] = useState<Region | null>(null);
@@ -110,6 +110,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Zwash</Text>
       <MapView style={styles.map} initialRegion={initialRegion}>
         {stations &&
           stations.map((station: any) => (
@@ -151,4 +152,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default Main;
