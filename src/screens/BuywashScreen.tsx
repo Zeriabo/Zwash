@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Button, ImageBackground} from 'react-native';
+import {View, Text, StyleSheet, Button} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {create_paymentIntent} from '../redux/actions/BuyActions';
 
@@ -13,9 +13,8 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
   const buy = useSelector((state: any) => state);
   const selectedProgram = route.params.selectedProgram;
   const [program, setProgram] = useState({});
-  const [cartItem, setCartItem] = useState({});
   const [paymentMethod, setPaymentMethod] = useState('');
-  //i need an object with payment method and program to buy
+
   useEffect(() => {
     setProgram({
       ...selectedProgram,
@@ -35,12 +34,9 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
     dispatch(create_paymentIntent({...program}, method));
     navigation.navigate('CheckoutForm');
   };
+
   return (
     <View style={styles.container}>
-      {/* <ImageBackground
-        source={require('../assets/background.jpg')}
-        style={styles.imageBackground}
-      > */}
       <View style={styles.detailsContainer}>
         <Text style={styles.programTitle}>{selectedProgram.program}</Text>
         <Text style={styles.programDescription}>
@@ -64,13 +60,11 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
         />
         <Button
           title="Buy Now"
-          // disabled={}
           onPress={() => {
             navigation.navigate('CheckoutScreen', {program: selectedProgram});
           }}
         />
       </View>
-      {/* </ImageBackground> */}
     </View>
   );
 };
@@ -78,15 +72,13 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  imageBackground: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
+    justifyContent: 'center', // Center content vertically
+    alignItems: 'center', // Center content horizontally
   },
   detailsContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
     padding: 20,
+    alignItems: 'center', // Center content horizontally within this container
   },
   programTitle: {
     fontSize: 24,
