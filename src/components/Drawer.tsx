@@ -12,12 +12,13 @@ import PaymentConfirmation from '../screens/PaymentConfirmation';
 import CheckoutForm from './CheckoutForm';
 import SignOutScreen from '../screens/SignOutScreen';
 import {useSelector} from 'react-redux';
+import MyCars from '../screens/MyCars';
 
 const Drawer = createDrawerNavigator();
 
 export function MyDrawer() {
   const user = useSelector((state: any) => state.user);
-  console.log(user);
+  const cars = useSelector((state: any) => state.cars.cars);
   if (user.user == null) {
     return (
       <Drawer.Navigator>
@@ -30,6 +31,15 @@ export function MyDrawer() {
         />
       </Drawer.Navigator>
     );
+  } else if (cars.length == 0) {
+    return (
+      <Drawer.Navigator>
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="SignOut" component={SignOutScreen} />
+        <Drawer.Screen name="SignUp" component={SignUpScreen} />
+        <Drawer.Screen name="RegisterCar" component={RegisterCarScreen} />
+      </Drawer.Navigator>
+    );
   } else {
     return (
       <Drawer.Navigator>
@@ -37,6 +47,11 @@ export function MyDrawer() {
         <Drawer.Screen name="SignOut" component={SignOutScreen} />
         <Drawer.Screen name="SignUp" component={SignUpScreen} />
         <Drawer.Screen name="RegisterCar" component={RegisterCarScreen} />
+        <Drawer.Screen
+          name="MyCars"
+          component={MyCars}
+          initialParams={{cars}}
+        />
       </Drawer.Navigator>
     );
   }

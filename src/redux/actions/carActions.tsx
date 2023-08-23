@@ -9,6 +9,7 @@ export const REGISTER_CAR_SUCCESS = 'REGISTER_CAR_SUCCESS';
 export const GET_CAR_SUCCESS = 'GET_CAR_SUCCESS';
 export const GET_USER_CARS_SUCCESS = 'GET_USER_CARS_SUCCESS';
 export const SET_CAR_OWNER_SUCCESS = 'SET_CAR_OWNER_SUCCESS';
+export const DELETE_CAR_SUCCESS = 'DELETE_CAR_SUCCESS';
 
 // Action creators
 export const registerCarSuccess = (car: Car) => ({
@@ -29,7 +30,10 @@ export const getUserCarsSuccess = (cars: Car[]) => ({
 export const setCarOwnerSuccess = () => ({
   type: SET_CAR_OWNER_SUCCESS,
 });
-
+export const deleteCarSuccess = (carId: number) => ({
+  type: DELETE_CAR_SUCCESS,
+  payload: carId,
+});
 export const registerCar: any = (userCar: any) => {
   return async (dispatch: Dispatch<any>) => {
     try {
@@ -92,7 +96,6 @@ export const getCar = (registrationPlate: string) => {
 
 export const getUserCars = (token: string) => {
   return async (dispatch: Dispatch) => {
-    console.log('Getting cars of user');
     await axios
       .get(Config.REACT_APP_SERVER_URL + `/v1/cars/user/${token}`)
       .then(response => dispatch(getUserCarsSuccess(response.data)))
@@ -107,6 +110,58 @@ export const setCarOwner = (userCar: any) => {
       dispatch(setCarOwnerSuccess());
     } catch (error) {
       // Handle error
+    }
+  };
+};
+
+export const deleteCar = (userCar: any) => {
+  console.log(userCar);
+  const car = {
+    token: userCar.car.token,
+    registrationPlate: userCar.car.registrationPlate,
+  };
+  return async (dispatch: Dispatch<any>) => {
+    try {
+      const response = await axios.post(
+        Config.REACT_APP_SERVER_URL + '/v1/cars/delete',
+        car,
+      );
+      if (response.status === 202) {
+        // Car deleted successfully
+        dispatch(deleteCarSuccess(userCar.carId));
+        dispatch(
+          addMessage({
+            id: 1,
+            text: 'Car deleted successfully',
+            status: 200,
+          }),
+        );
+        setTimeout(() => {
+          dispatch(clearMessages());
+        }, 2000);
+      } else {
+        dispatch(
+          addMessage({
+            id: 1,
+            text: 'Car deletion failed',
+            status: 500,
+          }),
+        );
+        setTimeout(() => {
+          dispatch(clearMessages());
+        }, 2000);
+      }
+    } catch (error) {
+      dispatch(
+        addMessage({
+          id: 1,
+          text: 'An error occurred',
+          status: 0,
+        }),
+      );
+      setTimeout(() => {
+        dispatch(clearMessages());
+      }, 2000);
     }
   };
 };

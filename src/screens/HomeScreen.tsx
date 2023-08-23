@@ -45,9 +45,6 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
     state => state.stations.stations,
   );
 
-  const cars: Car[] = useSelector<RootState, Station[]>(state => state.cars);
-  console.log('**********');
-  console.log(cars);
   // const error: string | null = useSelector<RootState, string | null>(
   //   state => state.stations.error,
   // );
