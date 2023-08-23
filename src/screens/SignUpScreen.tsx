@@ -25,7 +25,6 @@ const SignUpScreen: React.FC<Props> = () => {
     // Perform sign up logic here
     // You can access the form values using the state variables
     const user = {
-      '@class': 'com.zwash.pojos.User',
       firstName: firstName,
       lastName: lastName,
       password: password,
