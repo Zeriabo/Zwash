@@ -24,12 +24,10 @@ export function MyDrawer() {
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Signin" component={SignInScreen} />
         <Drawer.Screen name="SignUp" component={SignUpScreen} />
-
         <Drawer.Screen
           name="PaymentConfirmation"
           component={PaymentConfirmation}
         />
-        <Drawer.Screen name="CheckoutForm" component={CheckoutForm} />
       </Drawer.Navigator>
     );
   } else {
@@ -38,12 +36,7 @@ export function MyDrawer() {
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="SignOut" component={SignOutScreen} />
         <Drawer.Screen name="SignUp" component={SignUpScreen} />
-
-        <Drawer.Screen
-          name="PaymentConfirmation"
-          component={PaymentConfirmation}
-        />
-        <Drawer.Screen name="CheckoutForm" component={CheckoutForm} />
+        <Drawer.Screen name="RegisterCar" component={RegisterCarScreen} />
       </Drawer.Navigator>
     );
   }
