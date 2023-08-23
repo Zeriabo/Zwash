@@ -5,7 +5,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
-import Stations from './src/screens/Stations';
 import StationPage from './src/screens/StationPage';
 import BuywashScreen from './src/screens/BuywashScreen';
 import store from './src/redux/store';
@@ -21,6 +20,9 @@ import {ApolloClient, InMemoryCache, ApolloProvider, gql} from '@apollo/client';
 import RegisterCarScreen from './src/screens/RegisterCarScreen';
 import HomeScreen from './src/screens/HomeScreen'; // Import the HomeScreen component
 import CarsScreen from './src/screens/CarsScreen'; // Create other screens as needed
+import Main from './src/screens/Main';
+import 'react-native-gesture-handler';
+import {MyDrawer} from './src/components/Drawer';
 
 const RootStack = createNativeStackNavigator();
 const stripePromise = loadStripe(
@@ -41,22 +43,17 @@ function App(): JSX.Element {
       <Elements stripe={stripePromise}>
         <Provider store={store}>
           <ApolloProvider client={client}>
+            <MessageDisplay />
             <NavigationContainer>
-              <MessageDisplay />
-              <RootStack.Navigator initialRouteName="Home">
-                <RootStack.Screen name="SignIn" component={SignInScreen} />
-                <RootStack.Screen name="SignUp" component={SignUpScreen} />
-                <RootStack.Screen name="Stations" component={Stations} />
+              <RootStack.Navigator screenOptions={{headerShown: false}}>
+                <RootStack.Screen name="Drawer" component={MyDrawer} />
                 <RootStack.Screen name="StationPage" component={StationPage} />
                 <RootStack.Screen name="Buywash" component={BuywashScreen} />
+                <RootStack.Screen name="Main" component={Main} />
                 <RootStack.Screen
                   name="RegisterCar"
                   component={RegisterCarScreen}
                 />
-                {/* <RootStack.Screen name="Cars" component={CarsScreen} />
-<RootStack.Screen name="Washes" component={WashesScreen} />
-<RootStack.Screen name="PurchaseHistory" component={PurchaseHistoryScreen} /> */}
-
                 <RootStack.Screen
                   name="CheckoutScreen"
                   component={CheckoutScreen}

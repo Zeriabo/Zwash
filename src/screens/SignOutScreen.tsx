@@ -10,57 +10,34 @@ import axios from 'axios';
 import {NavigationScreenProp, NavigationRoute} from 'react-navigation';
 import Config from 'react-native-config';
 import {useSelector, useDispatch} from 'react-redux';
-import {signIn} from '../redux/actions/AuthActions';
+import {signIn, signOut} from '../redux/actions/AuthActions';
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-const SignInScreen: React.FC<Props> = ({navigation}) => {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+const SignOutScreen: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
   const error = useSelector((state: any) => state.user.error);
-
   useEffect(() => {
     if (user.user && user.user.id != undefined) {
-      // Navigate to the "Main" page
-      navigation.navigate('Home');
+      dispatch(signOut());
     }
   }, [user, navigation]);
-
-  const handleSignIn = () => {
-    const user = {
-      username: username,
-      password: password,
-    };
-    dispatch(signIn(user));
-  };
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign In</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      {user.user && <Text style={styles.message}>Signed in successfully!</Text>}
-      {error && <Text style={styles.error}>{error.error}</Text>}
-      <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-        <Text style={styles.buttonText}>Sign In</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  if (user.user && user.user.id != undefined) {
+    return (
+      <View style={styles.container}>
+        <Text>Sign out unsuccessful</Text>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <Text>Sign out successful</Text>
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -103,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignInScreen;
+export default SignOutScreen;

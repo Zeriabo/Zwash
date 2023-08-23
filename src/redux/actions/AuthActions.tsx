@@ -12,7 +12,13 @@ export const signIn = (userData: any) => {
         dispatch({type: 'SIGN_IN_SUCCESS', payload: response.data}),
       )
       .catch(error => {
-        dispatch(addMessage({id: 1, text: error.response.data}));
+        dispatch(
+          addMessage({
+            id: 1,
+            text: error.response.data,
+            status: 500,
+          }),
+        );
         setTimeout(() => {
           dispatch(clearMessages());
         }, 2000);
@@ -25,16 +31,32 @@ export const signUp = (userData: any) => {
     await axios
       .post(Config.REACT_APP_SERVER_URL + '/users/register', userData)
       .then((response: any) => {
-        dispatch(addMessage({id: 1, text: 'Registeration successful'}));
+        dispatch(
+          addMessage({
+            id: 1,
+            text: 'Registeration successful',
+            status: 200,
+          }),
+        );
         dispatch({type: 'SIGN_UP_SUCCESS', payload: response.data});
       })
       .catch((error: any) => {
         if (error.response.status == 500) {
-          dispatch(addMessage({id: 1, text: error.response.data}));
+          dispatch(
+            addMessage({
+              id: 1,
+              text: error.response.data,
+              status: 500,
+            }),
+          );
           dispatch({type: 'SIGN_UP_FAILED', payload: error.response.data});
         } else {
           dispatch(
-            addMessage({id: error.response.status, text: error.response.data}),
+            addMessage({
+              id: error.response.status,
+              text: error.response.data,
+              status: 500,
+            }),
           );
           dispatch({type: 'SIGN_UP_FAILED', payload: error.response.data});
         }
