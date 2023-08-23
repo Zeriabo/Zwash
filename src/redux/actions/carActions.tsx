@@ -63,7 +63,13 @@ export const registerCar: any = (userCar: any) => {
         }, 2000);
       }
     } catch (error) {
-      dispatch(addMessage({id: 1, text: 'An error occurred'}));
+      dispatch(
+        addMessage({
+          id: 1,
+          text: 'An error occurred',
+          status: 0,
+        }),
+      );
       setTimeout(() => {
         dispatch(clearMessages());
       }, 2000);
@@ -84,16 +90,13 @@ export const getCar = (registrationPlate: string) => {
   };
 };
 
-export const getUserCars = (username: string) => {
+export const getUserCars = (token: string) => {
   return async (dispatch: Dispatch) => {
-    try {
-      const response = await axios.get(
-        Config.REACT_APP_SERVER_URL + `/v1/cars/user/${username}`,
-      );
-      dispatch(getUserCarsSuccess(response.data));
-    } catch (error) {
-      // Handle error
-    }
+    console.log('Getting cars of user');
+    await axios
+      .get(Config.REACT_APP_SERVER_URL + `/v1/cars/user/${token}`)
+      .then(response => dispatch(getUserCarsSuccess(response.data)))
+      .catch(err => console.log(err));
   };
 };
 

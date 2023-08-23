@@ -31,6 +31,7 @@ import {
   InMemoryCache,
   gql,
 } from '@apollo/client';
+import Car from '../redux/types/CarType';
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -43,6 +44,10 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
   const stations: Station[] = useSelector<RootState, Station[]>(
     state => state.stations.stations,
   );
+
+  const cars: Car[] = useSelector<RootState, Station[]>(state => state.cars);
+  console.log('**********');
+  console.log(cars);
   // const error: string | null = useSelector<RootState, string | null>(
   //   state => state.stations.error,
   // );
@@ -79,8 +84,6 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
     } else if (Platform.OS === 'ios') {
       const permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
       let status = await check(permission);
-
-      console.log(status);
 
       if (status === 'granted') return true;
       if (status === 'blocked') {

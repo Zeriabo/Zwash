@@ -2,15 +2,18 @@ import axios from 'axios';
 import {Dispatch} from 'redux';
 import Config from 'react-native-config';
 import {addMessage, clearMessages} from './messageActions';
+import {getUserCars} from './carActions';
 
 export const signIn = (userData: any) => {
+  console.log(userData);
   return async (dispatch: Dispatch<any>) => {
-    console.log(Config.REACT_APP_SERVER_URL);
     await axios
       .post(Config.REACT_APP_SERVER_URL + '/v1/users/signin', userData)
-      .then(response =>
+      .then(response => {
         dispatch({type: 'SIGN_IN_SUCCESS', payload: response.data}),
-      )
+          dispatch(getUserCars(response.data.token));
+      })
+
       .catch(error => {
         dispatch(
           addMessage({

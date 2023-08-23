@@ -1,3 +1,7 @@
+import {useDispatch} from 'react-redux';
+import Car from '../types/CarType';
+import {getUserCars} from '../actions/carActions';
+
 interface AuthState {
   user: User | null;
   error: any;
