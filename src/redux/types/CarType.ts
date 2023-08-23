@@ -1,5 +1,6 @@
 interface Car {
-  registerationPlate: string;
+  carId: Number;
+  registrationPlate: string;
   manufacture: string;
   dateOfManufacture: Date;
   token: string;

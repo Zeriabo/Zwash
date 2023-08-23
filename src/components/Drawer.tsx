@@ -25,10 +25,6 @@ export function MyDrawer() {
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Signin" component={SignInScreen} />
         <Drawer.Screen name="SignUp" component={SignUpScreen} />
-        <Drawer.Screen
-          name="PaymentConfirmation"
-          component={PaymentConfirmation}
-        />
       </Drawer.Navigator>
     );
   } else if (cars.length == 0) {

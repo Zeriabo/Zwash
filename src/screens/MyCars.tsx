@@ -1,17 +1,25 @@
 import {useRoute} from '@react-navigation/native';
-import React from 'react';
+import React, {useReducer} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import Car from '../components/Car';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {deleteCar} from '../redux/actions/carActions';
-
+import CarType from '../redux/types/CarType';
 function MyCars() {
   const route = useRoute();
-  const cars: any = route.params.cars;
+  const cars: CarType[] = route.params.cars;
+  const user = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   const handleRemoveCar = (car: any) => {
-    // Dispatch the deleteCar action
-    dispatch(deleteCar({car}));
+    const carToRemove: CarType = {
+      carId: car.carId,
+      registrationPlate: car.registerationPlate,
+      dateOfManufacture: car.dateOfManufacture,
+      token: user.user.token,
+      deviceRegistrationToken: '',
+      manufacture: car.manufacture,
+    };
+    dispatch(deleteCar({carToRemove}));
   };
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>

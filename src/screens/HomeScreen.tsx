@@ -44,10 +44,6 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
   const stations: Station[] = useSelector<RootState, Station[]>(
     state => state.stations.stations,
   );
-
-  // const error: string | null = useSelector<RootState, string | null>(
-  //   state => state.stations.error,
-  // );
   const getCurrentLocation = () => {
     Geolocation.requestAuthorization('whenInUse');
     Geolocation.getCurrentPosition(

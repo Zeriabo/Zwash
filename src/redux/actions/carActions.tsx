@@ -113,22 +113,20 @@ export const setCarOwner = (userCar: any) => {
     }
   };
 };
-
+// {"car": {"carId": 1, "createDateTime": [2023, 6, 12, 22, 28, 36, 652285000], "dateOfManufacture": 567986400000, "manufacture": "Honda", "registerationPlate": "ABC123", "updateDateTime": [2023, 6, 12, 22, 28, 36, 652297000]}}
 export const deleteCar = (userCar: any) => {
-  console.log(userCar);
-  const car = {
-    token: userCar.car.token,
-    registrationPlate: userCar.car.registrationPlate,
-  };
+  console.log('userCar');
+  console.log(userCar.carToRemove);
   return async (dispatch: Dispatch<any>) => {
     try {
       const response = await axios.post(
         Config.REACT_APP_SERVER_URL + '/v1/cars/delete',
-        car,
+        userCar.carToRemove,
       );
+      console.log(response);
       if (response.status === 202) {
         // Car deleted successfully
-        dispatch(deleteCarSuccess(userCar.carId));
+        dispatch(deleteCarSuccess(userCar.carToRemove.carId));
         dispatch(
           addMessage({
             id: 1,
@@ -152,6 +150,8 @@ export const deleteCar = (userCar: any) => {
         }, 2000);
       }
     } catch (error) {
+      console.log('error');
+      console.log(error);
       dispatch(
         addMessage({
           id: 1,

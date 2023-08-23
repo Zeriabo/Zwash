@@ -30,11 +30,12 @@ const CarRegistrationForm = () => {
 
   const handleRegisterCar = () => {
     const car: Car = {
-      registerationPlate: registrationPlate,
+      registrationPlate: registrationPlate,
       manufacture: manufacture,
       dateOfManufacture: dateOfManufacture,
       token: token,
       deviceRegistrationToken: '',
+      carId: 0,
     };
     dispatch(registerCar(car));
   };

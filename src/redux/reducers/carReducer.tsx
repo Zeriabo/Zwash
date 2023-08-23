@@ -3,6 +3,7 @@ import {
   GET_CAR_SUCCESS,
   GET_USER_CARS_SUCCESS,
   SET_CAR_OWNER_SUCCESS,
+  DELETE_CAR_SUCCESS,
 } from '../actions/carActions';
 import Car from '../types/CarType';
 
@@ -37,6 +38,11 @@ const carReducer = (state = initialState, action: any) => {
     case SET_CAR_OWNER_SUCCESS:
       // Return updated state after setting the owner of a car
       return state;
+    case DELETE_CAR_SUCCESS:
+      const updatedCars = state.cars.filter(
+        car => car.carId !== action.payload.carId,
+      );
+      return {...state, cars: updatedCars};
 
     default:
       return state;

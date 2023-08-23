@@ -6,6 +6,8 @@ import messageReducer from './reducers/messagereducer';
 import buyReducer from './reducers/buyReducer';
 import bookingReducer from './reducers/bookingReducer';
 import carReducer from './reducers/carReducer';
+import {composeWithDevTools} from 'redux-devtools-extension';
+
 const rootReducer = combineReducers({
   user: authReducer,
   stations: stationsReducer,
@@ -17,6 +19,9 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk)),
+);
 
 export default store;
