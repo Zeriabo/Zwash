@@ -2,8 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {CarWashingProgram, Station} from '../redux/types/stationsActionTypes';
 import {NavigationProp, RouteProp} from '@react-navigation/native';
-import {MyDrawer} from '../components/Drawer';
-
+import {HeaderBackButton} from '@react-navigation/elements';
 interface Props {
   route: RouteProp<{params: {station: Station}}, 'params'>;
   navigation: NavigationProp<any>;
@@ -17,9 +16,25 @@ const StationPage: React.FC<Props> = ({route, navigation}) => {
   const handleProgramSelection = (selectedProgram: CarWashingProgram) => {
     navigation.navigate('Buywash', {selectedProgram});
   };
-
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}>
+          <Text style={styles.backButtonText}>Back</Text>
+        </TouchableOpacity>
+      ),
+      headerTitle: '', // Remove the header title
+      headerTitleAlign: 'left', // Align the header title to the left
+    });
+  }, [navigation]);
   return (
     <View style={styles.container}>
+      <HeaderBackButton
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      />
       <Text style={styles.title}>Station Details</Text>
       <Text style={styles.infoText}>Station Name: {station.name}</Text>
       <Text style={styles.infoText}>Station Address: {station.address}</Text>
@@ -38,7 +53,6 @@ const StationPage: React.FC<Props> = ({route, navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -68,6 +82,13 @@ const styles = StyleSheet.create({
   },
   programText: {
     fontSize: 14,
+  },
+  backButton: {
+    marginRight: 300,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: 'blue',
   },
 });
 
