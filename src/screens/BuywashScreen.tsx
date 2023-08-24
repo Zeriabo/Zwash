@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {create_paymentIntent} from '../redux/actions/BuyActions';
+import {HeaderBackButton} from '@react-navigation/elements';
 
 type Props = {
   route: any;
@@ -14,7 +15,19 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
   const selectedProgram = route.params.selectedProgram;
   const [program, setProgram] = useState({});
   const [paymentMethod, setPaymentMethod] = useState('');
-
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}>
+          <Text style={styles.backButtonText}>Back</Text>
+        </TouchableOpacity>
+      ),
+      headerTitle: '', // Remove the header title
+      headerTitleAlign: 'left', // Align the header title to the left
+    });
+  }, [navigation]);
   useEffect(() => {
     setProgram({
       ...selectedProgram,
@@ -37,6 +50,10 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
 
   return (
     <View style={styles.container}>
+      <HeaderBackButton
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      />
       <View style={styles.detailsContainer}>
         <Text style={styles.programTitle}>{selectedProgram.program}</Text>
         <Text style={styles.programDescription}>
@@ -71,9 +88,9 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center', // Center content vertically
     alignItems: 'center', // Center content horizontally
+    padding: 20,
   },
   detailsContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
@@ -95,6 +112,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'red',
     marginBottom: 20,
+  },
+  backButton: {
+    marginRight: 300,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: 'blue',
   },
 });
 
