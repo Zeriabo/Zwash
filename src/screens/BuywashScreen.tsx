@@ -15,6 +15,7 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
   const selectedProgram = route.params.selectedProgram;
   const [program, setProgram] = useState({});
   const [paymentMethod, setPaymentMethod] = useState('');
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -60,27 +61,13 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
           {selectedProgram.description}
         </Text>
         <Text style={styles.programPrice}>Price: {selectedProgram.price}</Text>
-        <Button
-          title="Credit Card"
-          disabled={paymentMethod === 'creditCard'}
-          onPress={() => handlePaymentMethodSelection('credit_card')}
-        />
-        <Button
-          title="Apple Pay"
-          disabled={paymentMethod === 'applePay'}
-          onPress={() => handlePaymentMethodSelection('apple_pay')}
-        />
-        <Button
-          title="Google Pay"
-          disabled={paymentMethod === 'googlePay'}
-          onPress={() => handlePaymentMethodSelection('google_pay')}
-        />
-        <Button
-          title="Buy Now"
-          onPress={() => {
-            navigation.navigate('CheckoutScreen', {program: selectedProgram});
-          }}
-        />
+        {buy.user.user != null ? (
+          <Button
+            title="Credit Card"
+            disabled={paymentMethod === 'creditCard'}
+            onPress={() => handlePaymentMethodSelection('credit_card')}
+          />
+        ) : null}
       </View>
     </View>
   );
