@@ -49,7 +49,7 @@ function App(): JSX.Element {
                 <RootStack.Screen name="Drawer" component={MyDrawer} />
                 <RootStack.Screen name="StationPage" component={StationPage} />
                 <RootStack.Screen name="Buywash" component={BuywashScreen} />
-                <RootStack.Screen name="Main" component={Main} />
+                {/* <RootStack.Screen name="Main" component={Main} /> */}
                 <RootStack.Screen
                   name="RegisterCar"
                   component={RegisterCarScreen}
