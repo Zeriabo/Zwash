@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, Button, View} from 'react-native';
+import {Alert, Button, StyleSheet, View} from 'react-native';
 import {
   CardField,
   ConfirmPaymentResult,
@@ -7,6 +7,7 @@ import {
 } from '@stripe/stripe-react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {createBooking} from '../redux/actions/BookingActions';
+import {HeaderBackButton} from '@react-navigation/elements';
 
 type Props = {
   route: any;
@@ -53,33 +54,80 @@ const CheckoutForm: React.FC<Props> = ({route, navigation}) => {
       Alert.alert('Error', 'Payment failed.');
     }
   };
-
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <HeaderBackButton
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        />
+      ),
+    });
+  }, [navigation]);
   return (
-    <View>
-      <CardField
-        postalCodeEnabled={true}
-        placeholders={{
-          number: '4242 4242 4242 4242',
-        }}
-        cardStyle={{
-          backgroundColor: '#FFFFFF',
-          textColor: '#000000',
-        }}
-        style={{
-          width: '100%',
-          height: 50,
-          marginVertical: 30,
-        }}
-        onCardChange={(cardDetails: any) => {
-          setCardDetails(cardDetails);
-        }}
-        // onFocus={focusedField => {
-        //   console.log('focusField', focusedField);
-        // }}
+    <View style={styles.container}>
+      <HeaderBackButton
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
       />
-      <Button title="Pay" onPress={handlePayment} />
+      <View style={styles.boxedContainer}>
+        <CardField
+          postalCodeEnabled={true}
+          placeholders={{
+            number: '4242 4242 4242 4242',
+          }}
+          cardStyle={{
+            backgroundColor: '#FFFFFF',
+            textColor: '#000000',
+          }}
+          style={{
+            width: '100%',
+            height: 50,
+            marginVertical: 30,
+          }}
+          onCardChange={(cardDetails: any) => {
+            setCardDetails(cardDetails);
+          }}
+          // onFocus={focusedField => {
+          //   console.log('focusField', focusedField);
+          // }}
+        />
+        <Button title="Pay" onPress={handlePayment} />
+      </View>
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center', // Center content vertically
+    alignItems: 'center', // Center content horizontally
+    padding: 20,
+  },
+  boxedContainer: {
+    width: '100%', // Adjust the width as needed
+    paddingHorizontal: 0,
+    paddingVertical: 10,
+    borderRadius: 5,
+    backgroundColor: 'gray',
+  },
+  checkoutButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 5,
+    backgroundColor: 'purple',
+    marginTop: 16,
+  },
+  checkoutText: {
+    fontSize: 16,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  backButton: {
+    marginRight: 300,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: 'blue',
+  },
+});
 export default CheckoutForm;
