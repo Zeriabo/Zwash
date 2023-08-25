@@ -9,26 +9,8 @@ interface Props {
 }
 
 const WashesScreen: React.FC<Props> = ({route, navigation}) => {
-  const {station} = route.params;
+  console.log(route);
 
-  const programs: CarWashingProgram[] = station.programs;
-
-  const handleProgramSelection = (selectedProgram: CarWashingProgram) => {
-    navigation.navigate('Buywash', {selectedProgram});
-  };
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}>
-          <Text style={styles.backButtonText}>Back</Text>
-        </TouchableOpacity>
-      ),
-      headerTitle: '', // Remove the header title
-      headerTitleAlign: 'left', // Align the header title to the left
-    });
-  }, [navigation]);
   return (
     <View style={styles.container}>
       <HeaderBackButton
@@ -36,17 +18,7 @@ const WashesScreen: React.FC<Props> = ({route, navigation}) => {
         onPress={() => navigation.goBack()}
       />
       <Text style={styles.title}>MyWashes</Text>
-      <Text style={styles.infoText}>Station Name: {station.name}</Text>
-      <Text style={styles.infoText}>Station Address: {station.address}</Text>
-      <Text style={styles.programsTitle}>Programs:</Text>
-      {programs.map(program => (
-        <TouchableOpacity
-          key={program.id}
-          style={styles.programContainer}
-          onPress={() => handleProgramSelection(program)}>
-          <Text style={styles.programText}>{program.program}</Text>
-        </TouchableOpacity>
-      ))}
+      <Text style={styles.programsTitle}>Washes:</Text>
     </View>
   );
 };
