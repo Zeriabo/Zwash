@@ -5,6 +5,7 @@ import Car from '../components/Car';
 import {useDispatch, useSelector} from 'react-redux';
 import {deleteCar} from '../redux/actions/carActions';
 import CarType from '../redux/types/CarType';
+import {Alert} from 'react-native';
 function MyCars() {
   const route = useRoute();
   const cars: CarType[] = route.params.cars;
@@ -19,7 +20,32 @@ function MyCars() {
       deviceRegistrationToken: '',
       manufacture: car.manufacture,
     };
-    dispatch(deleteCar({carToRemove}));
+    Alert.alert(
+      'Confirm Deletion',
+      'Are you sure you want to delete this car?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            const carToRemove: CarType = {
+              carId: car.carId,
+              registrationPlate: car.registerationPlate,
+              dateOfManufacture: car.dateOfManufacture,
+              token: user.user.token,
+              deviceRegistrationToken: '',
+              manufacture: car.manufacture,
+            };
+            dispatch(deleteCar({carToRemove}));
+          },
+        },
+      ],
+      {cancelable: true},
+    );
   };
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
