@@ -34,7 +34,7 @@ function PaymentScreen(payment: any) {
   console.log(payment);
   return (
     <View style={styles.mainContainer}>
-      <Text>shu eshbaak</Text>
+      <Text></Text>
     </View>
   );
 }
