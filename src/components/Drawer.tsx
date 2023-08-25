@@ -13,6 +13,7 @@ import CheckoutForm from './CheckoutForm';
 import SignOutScreen from '../screens/SignOutScreen';
 import {useSelector} from 'react-redux';
 import MyCars from '../screens/MyCars';
+import WashesScreen from '../screens/WashesScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -48,6 +49,7 @@ export function MyDrawer() {
           component={MyCars}
           initialParams={{cars}}
         />
+        <Drawer.Screen name="MyWashes" component={WashesScreen} />
       </Drawer.Navigator>
     );
   }
