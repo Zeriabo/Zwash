@@ -3,16 +3,17 @@ import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {confirm_payment} from '../redux/actions/BuyActions';
 import {useNavigation} from '@react-navigation/native';
+import {HeaderBackButton} from '@react-navigation/elements';
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1,
+    flex: 1, // Use flex to center content vertically
     backgroundColor: 'gray',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'center', // Center content vertically
+    alignItems: 'center', // Center content horizontally
   },
   boxedContainer: {
-    width: '100%',
+    width: '80%', // Adjust the width as needed
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 5,
@@ -30,9 +31,16 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  backButton: {
+    marginRight: 300,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: 'blue',
+  },
 });
 
-const CheckoutScreen = ({route}) => {
+const CheckoutScreen = (route: any) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const pi = useSelector((state: any) => state.cart.pi);
@@ -62,6 +70,10 @@ const CheckoutScreen = ({route}) => {
 
   return (
     <View style={styles.mainContainer}>
+      <HeaderBackButton
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      />
       <View style={styles.boxedContainer}>
         {/* Display your checkout details here */}
         <TouchableOpacity
