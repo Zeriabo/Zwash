@@ -3,7 +3,8 @@ import {Dispatch} from 'redux';
 import Config from 'react-native-config';
 import {addMessage, clearMessages} from './messageActions';
 import {Alert} from 'react-native';
-
+import store from '../store';
+import {createBooking} from './BookingActions';
 export const buyWash = (program: any) => {
   return {
     type: 'BUY_WASH',
@@ -19,7 +20,13 @@ export const checkout = (program: any) => {
         dispatch({type: 'CHECKOUT_SUCCESS', payload: response.data});
       })
       .catch(error => {
-        dispatch(addMessage({id: 1, text: error.response.data}));
+        dispatch(
+          addMessage({
+            id: 1,
+            text: error.response.data,
+            status: 0,
+          }),
+        );
         setTimeout(() => {
           dispatch(clearMessages());
         }, 2000);
@@ -67,7 +74,13 @@ export const confirm_payment: any = (payment: any) => {
         dispatch({type: 'PAYMENT_INTENT_SUCCESS', payload: response.data});
       })
       .catch(error => {
-        dispatch(addMessage({id: 1, text: error.response.data}));
+        dispatch(
+          addMessage({
+            id: 1,
+            text: error.response.data,
+            status: 500,
+          }),
+        );
         setTimeout(() => {
           dispatch(clearMessages());
         }, 2000);

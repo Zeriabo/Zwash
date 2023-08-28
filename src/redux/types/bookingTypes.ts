@@ -1,10 +1,8 @@
 // Booking.ts
 
+import Car from './CarType';
 import {CarWashingProgram} from './CarWashingProgram'; // Import the appropriate CarWashingProgram type
-import {Car} from './Car'; // Import the appropriate Car type
-import {User} from './User'; // Import the appropriate User type
-import {Station} from './Station'; // Import the appropriate Station type
-import {Wash} from './Wash'; // Import the appropriate Wash type
+import {Station} from './stationsActionTypes';
 
 export interface Booking {
   id: number;

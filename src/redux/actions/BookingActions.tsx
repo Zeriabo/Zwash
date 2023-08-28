@@ -2,6 +2,11 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import {addMessage, clearMessages} from './messageActions';
 import {Alert} from 'react-native';
+import {gql} from '@apollo/client';
+import {Dispatch} from 'redux';
+import {client} from '../../../App';
+import {fetchStations} from './stationsActions';
+import {FETCH_STATIONS_FAILURE} from '../types/stationsActionTypes';
 
 // Action Types
 export const FETCH_BOOKINGS_SUCCESS = 'FETCH_BOOKINGS_SUCCESS';
@@ -62,23 +67,23 @@ export const fetchBooking = (bookingId: any) => {
     }
   };
 };
-
-export const createBooking = (booking: any) => {
-  return async (dispatch: any) => {
+//wrong json
+export const createBooking = (bookingInput: any) => {
+  return async (dispatch: Dispatch) => {
     try {
       const response = await axios.post(
         Config.REACT_APP_SERVER_URL + '/v1/bookings',
-        booking,
+        bookingInput,
       );
+      console.log(response);
+      // Dispatch a success action if needed
       dispatch(createBookingSuccess(response.data));
-      // Handle navigation or other actions here
     } catch (error) {
       console.log(error);
-      // Handle error messages
+      // Handle errors or dispatch an error action if needed
     }
   };
 };
-
 export const updateBooking = (bookingId: any, booking: any) => {
   return async (dispatch: any) => {
     try {

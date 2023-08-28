@@ -56,7 +56,7 @@ const CheckoutScreen = (route: any) => {
       paymentIntentId: pi.paymentIntentId,
       paymentMethodId: pi.paymentMethodId,
     };
-
+    console.log('confirmation');
     dispatch(confirm_payment(payment))
       .then(() => {
         // Payment confirmation succeeded, navigate to home

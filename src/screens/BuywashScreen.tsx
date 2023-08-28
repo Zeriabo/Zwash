@@ -11,11 +11,12 @@ type Props = {
 
 const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
   const dispatch = useDispatch<any>();
-  const buy = useSelector((state: any) => state);
+  const state = useSelector((state: any) => state);
   const selectedProgram = route.params.selectedProgram;
   const [program, setProgram] = useState({});
   const [paymentMethod, setPaymentMethod] = useState('');
-
+  console.log('state');
+  console.log(state);
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -36,17 +37,17 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
   }, [selectedProgram]);
 
   useEffect(() => {
-    if (buy.cart.pi && buy.cart.pi.paymentIntentId) {
-      setPaymentMethod(buy.cart.pi.paymentMethod);
+    if (state.cart.pi && state.cart.pi.paymentIntentId) {
+      setPaymentMethod(state.cart.pi.paymentMethod);
     } else {
       setPaymentMethod('');
     }
-  }, [buy.cart.pi]);
+  }, [state.cart.pi]);
 
   const handlePaymentMethodSelection = (method: string) => {
     setPaymentMethod(method);
     dispatch(create_paymentIntent({...program}, method));
-    navigation.navigate('CheckoutForm');
+    navigation.navigate('CheckoutForm', program);
   };
 
   return (
@@ -61,7 +62,7 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
           {selectedProgram.description}
         </Text>
         <Text style={styles.programPrice}>Price: {selectedProgram.price}</Text>
-        {buy.user.user != null ? (
+        {state.user.user != null ? (
           <Button
             title="Credit Card"
             disabled={paymentMethod === 'creditCard'}
