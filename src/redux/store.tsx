@@ -8,6 +8,7 @@ import bookingReducer from './reducers/bookingReducer';
 import carReducer from './reducers/carReducer';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import stationReducer from './reducers/stationReducer';
+import washesReducer from './reducers/washesReducer';
 
 const rootReducer = combineReducers({
   user: authReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   booking: bookingReducer,
   cars: carReducer,
   station: stationReducer,
+  washes: washesReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

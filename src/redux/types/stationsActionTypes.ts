@@ -2,8 +2,6 @@
 export const FETCH_STATIONS_REQUEST = 'FETCH_STATIONS_REQUEST';
 export const FETCH_STATIONS_SUCCESS = 'FETCH_STATIONS_SUCCESS';
 export const FETCH_STATIONS_FAILURE = 'FETCH_STATIONS_FAILURE';
-export const FETCH_WASHES_SUCCESS = 'FETCH_WASHES_SUCCESS';
-export const FETCH_WASHES_FAILURE = 'FETCH_WASHES_FAILURE';
 export const SELECT_STATION = 'SELECT_STATION';
 
 interface FetchStationsRequestAction {
@@ -20,18 +18,10 @@ interface FetchStationsFailureAction {
   error: string;
 }
 
-interface FetchWashesSuccessAction {
-  type: typeof FETCH_WASHES_SUCCESS;
-}
-interface FetchWashesFailureAction {
-  type: typeof FETCH_WASHES_FAILURE;
-}
 export type StationsAction =
   | FetchStationsRequestAction
   | FetchStationsSuccessAction
-  | FetchStationsFailureAction
-  | FetchWashesSuccessAction
-  | FetchWashesFailureAction;
+  | FetchStationsFailureAction;
 
 export interface Station {
   id: string;
