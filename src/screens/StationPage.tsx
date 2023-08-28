@@ -1,8 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {CarWashingProgram, Station} from '../redux/types/stationsActionTypes';
 import {NavigationProp, RouteProp} from '@react-navigation/native';
 import {HeaderBackButton} from '@react-navigation/elements';
+import {useDispatch} from 'react-redux';
+import {selectStation} from '../redux/actions/stationActions';
 interface Props {
   route: RouteProp<{params: {station: Station}}, 'params'>;
   navigation: NavigationProp<any>;
@@ -10,6 +12,9 @@ interface Props {
 
 const StationPage: React.FC<Props> = ({route, navigation}) => {
   const {station} = route.params;
+  const dispatch = useDispatch();
+
+  dispatch(selectStation(route.params.station.id));
 
   const programs: CarWashingProgram[] = station.programs;
 
