@@ -57,7 +57,7 @@ const BuywashScreen: React.FC<Props> = ({route, navigation}) => {
         onPress={() => navigation.goBack()}
       />
       <View style={styles.detailsContainer}>
-        <Text style={styles.programTitle}>{selectedProgram.program}</Text>
+        <Text style={styles.programTitle}>{selectedProgram.programType}</Text>
         <Text style={styles.programDescription}>
           {selectedProgram.description}
         </Text>
