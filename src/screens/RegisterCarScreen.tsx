@@ -3,10 +3,14 @@ import {View, StyleSheet} from 'react-native';
 import {Card, TextInput, Button} from 'react-native-paper';
 import YearPicker from 'react-native-month-year-picker';
 import {useDispatch, useSelector} from 'react-redux';
-import {registerCar} from '../redux/actions/carActions';
+import {getUserCars, registerCar} from '../redux/actions/carActions';
 import Car from '../redux/types/CarType';
+import {NavigationProp, RouteProp} from '@react-navigation/native';
 
-const CarRegistrationForm = () => {
+interface Props {
+  navigation: NavigationProp<any>;
+}
+const CarRegistrationForm: React.FC<Props> = ({navigation}) => {
   const [registrationPlate, setRegistrationPlate] = useState('');
   const [manufacture, setManufacture] = useState('');
   const [dateOfManufacture, setDateOfManufacture] = useState(new Date());
@@ -38,6 +42,8 @@ const CarRegistrationForm = () => {
       carId: 0,
     };
     dispatch(registerCar(car));
+    dispatch(getUserCars(token));
+    navigation.navigate('Home');
   };
 
   return (
