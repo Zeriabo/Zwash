@@ -1,16 +1,27 @@
 import {useRoute} from '@react-navigation/native';
-import React, {useReducer} from 'react';
+import React, {useEffect, useReducer} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import Car from '../components/Car';
 import {useDispatch, useSelector} from 'react-redux';
-import {deleteCar} from '../redux/actions/carActions';
+import {
+  deleteCar,
+  deleteCarSuccess,
+  getUserCars,
+} from '../redux/actions/carActions';
 import CarType from '../redux/types/CarType';
 import {Alert} from 'react-native';
 function MyCars() {
-  const route = useRoute();
-  const cars: CarType[] = route.params.cars;
   const user = useSelector((state: any) => state.user);
+  const cars = useSelector((state: any) => state.cars.cars);
   const dispatch = useDispatch();
+  const getCars = () => {
+    dispatch(getUserCars(user.user.token));
+  };
+
+  useEffect(() => {
+    getCars();
+  }, [dispatch, cars.length]);
+
   const handleRemoveCar = (car: any) => {
     const carToRemove: CarType = {
       carId: car.carId,
@@ -41,6 +52,8 @@ function MyCars() {
               manufacture: car.manufacture,
             };
             dispatch(deleteCar({carToRemove}));
+            dispatch(deleteCarSuccess(carToRemove.carId));
+            getCars();
           },
         },
       ],

@@ -40,7 +40,7 @@ const carReducer = (state = initialState, action: any) => {
       return state;
     case DELETE_CAR_SUCCESS:
       const updatedCars = state.cars.filter(
-        car => car.carId !== action.payload.carId,
+        car => car.carId !== action.payload,
       );
       return {...state, cars: updatedCars};
 

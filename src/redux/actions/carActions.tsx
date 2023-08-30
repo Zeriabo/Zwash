@@ -41,8 +41,7 @@ export const registerCar: any = (userCar: any) => {
         Config.REACT_APP_SERVER_URL + '/v1/cars/register',
         userCar,
       );
-      console.log('response');
-      console.log(response);
+
       if (response.status === 201) {
         // Car registered successfully
         dispatch(
@@ -90,8 +89,14 @@ export const getCar = (registrationPlate: string) => {
         Config.REACT_APP_SERVER_URL + `/v1/cars/${registrationPlate}`,
       );
       dispatch(getCarSuccess(response.data));
-    } catch (error) {
-      // Handle error
+    } catch (error: any) {
+      dispatch(
+        addMessage({
+          id: 1,
+          text: error,
+          status: 0,
+        }),
+      );
     }
   };
 };
@@ -101,7 +106,15 @@ export const getUserCars = (token: string) => {
     await axios
       .get(Config.REACT_APP_SERVER_URL + `/v1/cars/user/${token}`)
       .then(response => dispatch(getUserCarsSuccess(response.data)))
-      .catch(err => console.log(err));
+      .catch(err =>
+        dispatch(
+          addMessage({
+            id: 1,
+            text: err,
+            status: 0,
+          }),
+        ),
+      );
   };
 };
 
@@ -117,15 +130,12 @@ export const setCarOwner = (userCar: any) => {
 };
 // {"car": {"carId": 1, "createDateTime": [2023, 6, 12, 22, 28, 36, 652285000], "dateOfManufacture": 567986400000, "manufacture": "Honda", "registerationPlate": "ABC123", "updateDateTime": [2023, 6, 12, 22, 28, 36, 652297000]}}
 export const deleteCar = (userCar: any) => {
-  console.log('userCar');
-  console.log(userCar.carToRemove);
   return async (dispatch: Dispatch<any>) => {
     try {
       const response = await axios.post(
         Config.REACT_APP_SERVER_URL + '/v1/cars/delete',
         userCar.carToRemove,
       );
-      console.log(response);
       if (response.status === 202) {
         // Car deleted successfully
         dispatch(deleteCarSuccess(userCar.carToRemove.carId));
@@ -152,8 +162,6 @@ export const deleteCar = (userCar: any) => {
         }, 2000);
       }
     } catch (error) {
-      console.log('error');
-      console.log(error);
       dispatch(
         addMessage({
           id: 1,

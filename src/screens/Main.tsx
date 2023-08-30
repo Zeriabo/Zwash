@@ -80,8 +80,6 @@ const Main: React.FC<Props> = ({navigation}) => {
       const permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
       let status = await check(permission);
 
-      console.log(status);
-
       if (status === 'granted') return true;
       if (status === 'blocked') {
         // TODO: Show some informational UI, educating the user to change the permission via the Settings app.

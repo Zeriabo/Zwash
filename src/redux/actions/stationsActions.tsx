@@ -33,7 +33,7 @@ export const fetchStations = (): ThunkAction<
             }
             programs {
               id
-              program
+              programType
               description
               price
             }
@@ -46,14 +46,18 @@ export const fetchStations = (): ThunkAction<
       const {data} = await client.query({
         query: GET_STATIONS,
       });
+      console.log('staton data');
+      console.log(data);
       // Remove __typename from programs array
-      const stationsWithoutTypename = data.getAllStations.map(station => ({
-        ...station,
-        programs: station.programs.map((program: any) => {
-          const {__typename, ...rest} = program;
-          return rest;
+      const stationsWithoutTypename = data.getAllStations.map(
+        (station: any) => ({
+          ...station,
+          programs: station.programs.map((program: any) => {
+            const {__typename, ...rest} = program;
+            return rest;
+          }),
         }),
-      }));
+      );
       dispatch({
         type: FETCH_STATIONS_SUCCESS,
         stations: stationsWithoutTypename,
