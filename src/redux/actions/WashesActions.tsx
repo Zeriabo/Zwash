@@ -4,6 +4,7 @@ import {
   FETCH_WASHES_SUCCESS,
   FETCH_WASHES_FAILURE,
   FetchStationsAction,
+  WashesAction,
 } from '../types/washesActionTypes';
 import {RootState} from '../store';
 import Config from 'react-native-config';
@@ -15,42 +16,46 @@ export const SELECT_WASHES = 'SELECT_WASHES';
 
 export const fetchWashesBooked = (
   carId: Number,
-): ThunkAction<Promise<void>, RootState, undefined, StationsAction> => {
-  return async (dispatch: Dispatch<StationsAction>) => {
+): ThunkAction<Promise<void>, RootState, undefined, WashesAction> => {
+  return async (dispatch: Dispatch<WashesAction>) => {
     dispatch({type: FETCH_WASHES_REQUEST});
 
     try {
       const GET_WASHES = gql`
-        query {
-          getAllStations {
+        query getCarBookings($carId: ID!) {
+          getCarBookings(carId: $carId) {
             id
-            name
-            address
-            media {
-              id
+            car {
+              registerationPlate
+              manufacture
+              dateOfManufacture
             }
-            programs {
-              id
+            washingProgram {
               program
               description
               price
             }
-            latitude
-            longitude
+            station {
+              id
+              name
+              address
+              latitude
+              longitude
+            }
           }
         }
       `;
-
       const {data} = await client.query({
         query: GET_WASHES,
+        variables: {carId},
       });
-      // Remove __typename from programs array
 
       dispatch({
         type: FETCH_WASHES_SUCCESS,
-        washes: data,
+        payload: data.getCarBookings,
       });
     } catch (error: any) {
+      console.log(error);
       dispatch({type: FETCH_WASHES_FAILURE, error: error.message as string});
     }
   };

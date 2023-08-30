@@ -1,66 +1,111 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {CarWashingProgram, Station} from '../redux/types/stationsActionTypes';
 import {NavigationProp, RouteProp} from '@react-navigation/native';
 import {HeaderBackButton} from '@react-navigation/elements';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchWashesBooked} from '../redux/actions/WashesActions';
+import store from '../redux/store';
+import Icon from 'react-native-vector-icons/Ionicons'; // Import the icon library
+
 interface Props {
   route: RouteProp<{params: {station: Station}}, 'params'>;
   navigation: NavigationProp<any>;
 }
 
 const WashesScreen: React.FC<Props> = ({route, navigation}) => {
-  console.log(route);
+  const cars = useSelector((state: any) => state.cars.cars);
+  const [selectedLanguage, setSelectedLanguage] = useState();
+  const [selectedCarId, setSelectedCarId] = useState<string | undefined>(
+    undefined,
+  );
+  const state = store.getState();
+  const dispatch = useDispatch();
 
+  const handleCarSelect = (carId: string) => {
+    setSelectedCarId(carId);
+    dispatch(fetchWashesBooked(selectedCarId));
+  };
+  const washes = state.washes.washes;
+  console.log(washes);
   return (
     <View style={styles.container}>
-      <HeaderBackButton
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      />
-      <Text style={styles.title}>MyWashes</Text>
-      <Text style={styles.programsTitle}>Washes:</Text>
+      <Text style={styles.title}>Select a Car:</Text>
+      <View style={styles.carList}>
+        {cars.map((car: any) => (
+          <TouchableOpacity
+            key={car.carId}
+            style={[
+              styles.carItem,
+              selectedCarId === car.carId.toString() && styles.selectedCar,
+            ]}
+            onPress={() => handleCarSelect(car.carId.toString())}>
+            <Icon name="car" size={24} color="#000" />
+            <Text style={styles.carText}>{car.registerationPlate}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <View style={styles.washesContainer}>
+        {washes ? (
+          washes.map((wash: any) => (
+            <View key={wash.id} style={styles.washItem}>
+              <Text style={styles.washTitle}>Wash Details:</Text>
+              <Text>Wash ID: {wash.id}</Text>
+              <Text>Car: {wash.car.registerationPlate}</Text>
+              <Text>Station: {wash.station.name}</Text>
+              <Text>Washing Program ID: {wash.washingProgram.program}</Text>
+              <Text>
+                Washing Program description: {wash.washingProgram.description}
+              </Text>
+            </View>
+          ))
+        ) : (
+          <Text>No washes available for the selected car.</Text>
+        )}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    paddingHorizontal: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  infoText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 10,
+  carList: {
+    marginBottom: 20,
   },
-  programsTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    marginTop: 20,
-  },
-  programContainer: {
+  carItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    backgroundColor: '#eaeaea',
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  selectedCar: {
+    backgroundColor: '#f0f0f0',
+  },
+  carText: {
+    marginLeft: 10,
+  },
+  washItem: {
+    backgroundColor: '#f0f0f0',
+    padding: 10,
     marginBottom: 10,
+    borderRadius: 8,
   },
-  programText: {
-    fontSize: 14,
-  },
-  backButton: {
-    marginRight: 300,
-  },
-  backButtonText: {
-    fontSize: 16,
-    color: 'blue',
+  washTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
 });
 
