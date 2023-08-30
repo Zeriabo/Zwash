@@ -11,6 +11,7 @@ import Config from 'react-native-config';
 import {ThunkAction} from 'redux-thunk';
 import {ApolloClient, InMemoryCache, gql} from '@apollo/client';
 import {client} from '../../../App';
+import {Alert} from 'react-native';
 
 export const SELECT_WASHES = 'SELECT_WASHES';
 
@@ -19,7 +20,6 @@ export const fetchWashesBooked = (
 ): ThunkAction<Promise<void>, RootState, undefined, WashesAction> => {
   return async (dispatch: Dispatch<WashesAction>) => {
     dispatch({type: FETCH_WASHES_REQUEST});
-
     try {
       const GET_WASHES = gql`
         query getCarBookings($carId: ID!) {
@@ -31,7 +31,7 @@ export const fetchWashesBooked = (
               dateOfManufacture
             }
             washingProgram {
-              program
+              programType
               description
               price
             }
@@ -45,15 +45,20 @@ export const fetchWashesBooked = (
           }
         }
       `;
-      const {data} = await client.query({
-        query: GET_WASHES,
-        variables: {carId},
-      });
-
-      dispatch({
-        type: FETCH_WASHES_SUCCESS,
-        payload: data.getCarBookings,
-      });
+      client
+        .query({
+          query: GET_WASHES,
+          variables: {carId},
+        })
+        .then((graphQlQuery: any) => {
+          dispatch({
+            type: FETCH_WASHES_SUCCESS,
+            payload: graphQlQuery.data.getCarBookings,
+          });
+        })
+        .catch(err =>
+          dispatch({type: FETCH_WASHES_FAILURE, error: err.message as string}),
+        );
     } catch (error: any) {
       console.log(error);
       dispatch({type: FETCH_WASHES_FAILURE, error: error.message as string});

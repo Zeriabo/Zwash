@@ -15,7 +15,7 @@ interface Props {
 
 const WashesScreen: React.FC<Props> = ({route, navigation}) => {
   const cars = useSelector((state: any) => state.cars.cars);
-  const [selectedLanguage, setSelectedLanguage] = useState();
+  const carWashes = useSelector((state: any) => state.washes.washes);
   const [selectedCarId, setSelectedCarId] = useState<string | undefined>(
     undefined,
   );
@@ -24,10 +24,9 @@ const WashesScreen: React.FC<Props> = ({route, navigation}) => {
 
   const handleCarSelect = (carId: string) => {
     setSelectedCarId(carId);
-    dispatch(fetchWashesBooked(selectedCarId));
+    dispatch(fetchWashesBooked(carId));
   };
-  const washes = state.washes.washes;
-  console.log(washes);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Select a Car:</Text>
@@ -46,14 +45,14 @@ const WashesScreen: React.FC<Props> = ({route, navigation}) => {
         ))}
       </View>
       <View style={styles.washesContainer}>
-        {washes ? (
-          washes.map((wash: any) => (
+        {carWashes ? (
+          carWashes.map((wash: any) => (
             <View key={wash.id} style={styles.washItem}>
               <Text style={styles.washTitle}>Wash Details:</Text>
               <Text>Wash ID: {wash.id}</Text>
               <Text>Car: {wash.car.registerationPlate}</Text>
               <Text>Station: {wash.station.name}</Text>
-              <Text>Washing Program ID: {wash.washingProgram.program}</Text>
+              <Text>Washing Program ID: {wash.washingProgram.programType}</Text>
               <Text>
                 Washing Program description: {wash.washingProgram.description}
               </Text>

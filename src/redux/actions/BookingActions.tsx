@@ -1,12 +1,6 @@
 import axios from 'axios';
 import Config from 'react-native-config';
-import {addMessage, clearMessages} from './messageActions';
-import {Alert} from 'react-native';
-import {gql} from '@apollo/client';
 import {Dispatch} from 'redux';
-import {client} from '../../../App';
-import {fetchStations} from './stationsActions';
-import {FETCH_STATIONS_FAILURE} from '../types/stationsActionTypes';
 
 // Action Types
 export const FETCH_BOOKINGS_SUCCESS = 'FETCH_BOOKINGS_SUCCESS';

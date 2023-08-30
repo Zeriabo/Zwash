@@ -4,8 +4,6 @@ import {
   FETCH_STATIONS_REQUEST,
   FETCH_STATIONS_SUCCESS,
   FETCH_STATIONS_FAILURE,
-  FETCH_WASHES_SUCCESS,
-  FETCH_WASHES_FAILURE,
   FetchStationsAction,
 } from '../types/stationsActionTypes';
 import {RootState} from '../store';
