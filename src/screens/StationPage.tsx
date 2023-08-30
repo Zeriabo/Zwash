@@ -49,7 +49,7 @@ const StationPage: React.FC<Props> = ({route, navigation}) => {
           key={program.id}
           style={styles.programContainer}
           onPress={() => handleProgramSelection(program)}>
-          <Text style={styles.programText}>{program.program}</Text>
+          <Text style={styles.programText}>{program.programType}</Text>
         </TouchableOpacity>
       ))}
     </View>
