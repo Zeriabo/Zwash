@@ -41,7 +41,9 @@ export const registerCar: any = (userCar: any) => {
         Config.REACT_APP_SERVER_URL + '/v1/cars/register',
         userCar,
       );
-      if (response.status === 202) {
+      console.log('response');
+      console.log(response);
+      if (response.status === 201) {
         // Car registered successfully
         dispatch(
           addMessage({
