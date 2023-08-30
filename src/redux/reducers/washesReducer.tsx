@@ -1,6 +1,6 @@
 import {Action} from 'redux';
 import {SELECT_WASHES} from '../actions/WashesActions';
-import {Wash} from '../types/washesActionTypes';
+import {FETCH_WASHES_SUCCESS, Wash} from '../types/washesActionTypes';
 
 interface WashesState {
   washes: Wash[] | null;
@@ -12,6 +12,12 @@ const initialState: WashesState = {
 const washesReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case SELECT_WASHES:
+      return {
+        ...state,
+        washes: action.payload,
+      };
+
+    case FETCH_WASHES_SUCCESS:
       return {
         ...state,
         washes: action.payload,

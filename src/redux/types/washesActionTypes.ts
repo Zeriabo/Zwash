@@ -2,9 +2,9 @@ import Car from './CarType';
 import WashingProgram from './WashingProgramType';
 import {Station} from './stationsActionTypes';
 
-export const FETCH_WASHES_REQUEST = 'FETCH_WAHES_REQUEST';
-export const FETCH_WASHES_SUCCESS = 'FETCH_WAHES_SUCCESS';
-export const FETCH_WASHES_FAILURE = 'FETCH_WAHES_FAILURE';
+export const FETCH_WASHES_REQUEST = 'FETCH_WASHES_REQUEST';
+export const FETCH_WASHES_SUCCESS = 'FETCH_WASHES_SUCCESS';
+export const FETCH_WASHES_FAILURE = 'FETCH_WASHES_FAILURE';
 export const SELECT_WASHES = 'SELECT_WASH';
 
 interface FetchWashesRequestAction {
