@@ -47,20 +47,23 @@ export const fetchStations = (): ThunkAction<
         query: GET_STATIONS,
       });
       console.log('staton data');
-      console.log(data);
+
       // Remove __typename from programs array
       const stationsWithoutTypename = data.getAllStations.map(
-        (station: any) => ({
-          ...station,
-          programs: station.programs.map((program: any) => {
-            const {__typename, ...rest} = program;
-            return rest;
-          }),
-        }),
+        (station: any) => {
+          const {__typename, ...stationWithoutTypename} = station;
+          return {
+            ...stationWithoutTypename,
+            programs: stationWithoutTypename.programs.map((program: any) => {
+              const {__typename: programTypename, ...rest} = program;
+              return rest;
+            }),
+          };
+        },
       );
       dispatch({
         type: FETCH_STATIONS_SUCCESS,
-        stations: stationsWithoutTypename,
+        payload: stationsWithoutTypename,
       });
     } catch (error: any) {
       dispatch({type: FETCH_STATIONS_FAILURE, error: error.message as string});

@@ -22,12 +22,14 @@ const initialState: StationsState = {
 };
 
 const stationsReducer = (state = initialState, action: any): StationsState => {
-  console.log(action);
+  console.log('stationsReducer');
+  console.log(action.payload);
+
   switch (action.type) {
     case FETCH_STATIONS_SUCCESS:
       return {
         ...state,
-        stations: action.stations,
+        stations: action.payload,
         error: null,
       };
     case FETCH_STATIONS_FAILURE:
