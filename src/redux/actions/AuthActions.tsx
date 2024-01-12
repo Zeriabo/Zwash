@@ -5,14 +5,17 @@ import {addMessage, clearMessages} from './messageActions';
 import {getUserCars} from './carActions';
 
 export const signIn = (userData: any) => {
+  console.log(Config.REACT_APP_SERVER_URL);
   return async (dispatch: Dispatch<any>) => {
+    console.log(userData);
+
     await axios
-      .post(Config.REACT_APP_SERVER_URL + '/v1/users/signin', userData)
+      .post(Config.REACT_APP_SERVER_URL + '/signin', userData)
       .then(response => {
+        console.log(response);
         dispatch({type: 'SIGN_IN_SUCCESS', payload: response.data}),
           dispatch(getUserCars(response.data.token));
       })
-
       .catch(error => {
         dispatch(
           addMessage({
